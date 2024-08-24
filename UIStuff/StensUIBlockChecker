@@ -10,7 +10,6 @@ local ScrollingFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
 
 ScreenGui.Parent = game:GetService("CoreGui")
-ScreenGui.Name = "BlocksUI"
 
 Window.Name = "Window"
 Window.Parent = ScreenGui
@@ -241,7 +240,8 @@ TextButton.MouseButton1Click:Connect(function() Functions:Clear() end)
 
 local UserInputService = game:GetService("UserInputService")
 
-local function Draggable()
+do
+function Draggable()
     local dragging = false
     local dragInput
     local dragStart
@@ -284,13 +284,7 @@ local function Draggable()
         end
     end)
 end
-
 Draggable()
+end
 
 return Functions
-
-
-
-
-
-
