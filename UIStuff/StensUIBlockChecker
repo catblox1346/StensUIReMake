@@ -10,6 +10,7 @@ local ScrollingFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
 
 ScreenGui.Parent = game:GetService("CoreGui")
+ScreenGui.Name = "BlocksUI
 
 Window.Name = "Window"
 Window.Parent = ScreenGui
