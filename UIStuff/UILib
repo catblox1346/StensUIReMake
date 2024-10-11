@@ -1003,7 +1003,7 @@ function library:AddWindow(title, options)
 
 		local Held = false
 		UIS.InputBegan:Connect(function(inputObject)
-			if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+			if inputObject.UserInputType == Enum.UserInputType.MouseButton1 or inputObject.UserInputType == Enum.UserInputType.Touch then
 				Held = true
 
 				spawn(function() -- Loop check
@@ -1032,7 +1032,7 @@ function library:AddWindow(title, options)
 			end
 		end)
 		UIS.InputEnded:Connect(function(inputObject)
-			if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+			if inputObject.UserInputType == Enum.UserInputType.MouseButton1 or inputObject.UserInputType == Enum.UserInputType.Touch then
 				Held = false
 			end
 		end)
@@ -1045,7 +1045,7 @@ function library:AddWindow(title, options)
 
 		local oldwindowdata = {}
 		local oldy = Window.AbsoluteSize.Y
-		open_close.MouseButton1Click:Connect(function()
+		open_close.Activated:Connect(function()
 			if canopen then
 				canopen = false
 
@@ -1127,7 +1127,7 @@ function library:AddWindow(title, options)
 					new_tab.Visible = true
 				end
 
-				new_button.MouseButton1Click:Connect(function()
+				new_button.Activated:Connect(function()
 					show()
 				end)
 
@@ -1171,7 +1171,7 @@ function library:AddWindow(title, options)
 							end
 						end)
 
-						button.MouseButton1Click:Connect(function()
+						button.Activated:Connect(function()
 							ripple(button, mouse.X, mouse.Y)
 							pcall(callback)
 						end)
@@ -1204,7 +1204,7 @@ function library:AddWindow(title, options)
 						end)
 
 						local toggled = false
-						switch.MouseButton1Click:Connect(function()
+						switch.Activated:Connect(function()
 							toggled = not toggled
 							switch.Text = toggled and utf8.char(10003) or ""
 							pcall(callback, toggled)
@@ -1285,7 +1285,7 @@ function library:AddWindow(title, options)
 
 							local Held = false
 							UIS.InputBegan:Connect(function(inputObject)
-								if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+								if inputObject.UserInputType == Enum.UserInputType.MouseButton1 or inputObject.UserInputType == Enum.UserInputType.Touch then
 									Held = true
 
 									spawn(function() -- Loop check
@@ -1325,7 +1325,7 @@ function library:AddWindow(title, options)
 								end
 							end)
 							UIS.InputEnded:Connect(function(inputObject)
-								if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+								if inputObject.UserInputType == Enum.UserInputType.MouseButton1 or inputObject.UserInputType == Enum.UserInputType.Touch then
 									Held = false
 								end
 							end)
@@ -1407,7 +1407,7 @@ function library:AddWindow(title, options)
 
 						keybind_data:SetKeybind(keybind_options.standard)
 
-						input.MouseButton1Click:Connect(function()
+						input.Activated:Connect(function()
 							if checks.binding then return end
 							input.Text = "..."
 							checks.binding = true
@@ -1440,7 +1440,7 @@ function library:AddWindow(title, options)
 						box.Size = UDim2.new(1, 0, 0, 0)
 
 						local open = false
-						dropdown.MouseButton1Click:Connect(function()
+						dropdown.Activated:Connect(function()
 							open = not open
 
 							local len = (#objects:GetChildren() - 1) * 20
@@ -1488,7 +1488,7 @@ function library:AddWindow(title, options)
 								Resize(box, {Size = UDim2.new(1, 0, 0, len)}, options.tween_time)
 							end
 
-							object.MouseButton1Click:Connect(function()
+							object.Activated:Connect(function()
 								if dropdown_open then
 									dropdown.Text = "      [ " .. n .. " ]"
 									dropdown_open = false
@@ -1576,7 +1576,7 @@ function library:AddWindow(title, options)
 
 							local Held = false
 							UIS.InputBegan:Connect(function(inputObject)
-								if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+								if inputObject.UserInputType == Enum.UserInputType.MouseButton1 or inputObject.UserInputType == Enum.UserInputType.Touch then
 									Held = true
 
 									spawn(function() -- Loop check
@@ -1610,7 +1610,7 @@ function library:AddWindow(title, options)
 								end
 							end)
 							UIS.InputEnded:Connect(function(inputObject)
-								if inputObject.UserInputType == Enum.UserInputType.MouseButton1 then
+								if inputObject.UserInputType == Enum.UserInputType.MouseButton1 or inputObject.UserInputType == Enum.UserInputType.Touch then
 									Held = false
 								end
 							end)
@@ -1962,7 +1962,7 @@ function library:AddWindow(title, options)
 						end
 
 						local open = false
-						button.MouseButton1Click:Connect(function()
+						button.Activated:Connect(function()
 							if open then -- Close
 								Resize(toggle, {Rotation = 0}, options.tween_time)
 								objects.Visible = false
