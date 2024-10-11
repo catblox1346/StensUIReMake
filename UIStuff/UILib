@@ -1417,7 +1417,7 @@ function library:AddWindow(title, options)
 
 						return keybind_data, keybind
 					end
-
+                    local scrollPos
 					function tab_data:AddDropdown(dropdown_name, callback)
 						local dropdown_data = {}
 						dropdown_name = tostring(dropdown_name or "New Dropdown")
@@ -1443,6 +1443,10 @@ function library:AddWindow(title, options)
 						dropdown.Activated:Connect(function()
 							open = not open
 
+                            if not open then
+                                scrollPos = objects.CanvasPosition
+                            end
+
 							local len = (#objects:GetChildren() - 1) * 20
 							if #objects:GetChildren() - 1 >= 10 then
 								len = 10 * 20
@@ -1454,6 +1458,9 @@ function library:AddWindow(title, options)
 								dropdown_open = true
 								Resize(box, {Size = UDim2.new(1, 0, 0, len)}, options.tween_time)
 								Resize(indicator, {Rotation = 90}, options.tween_time)
+                                boxTween.Completed:Connect(function()
+                                    objects.CanvasPosition = scrollPos  -- Restore saved scroll position
+                                end)
 							else -- Close
 								dropdown_open = false
 								Resize(box, {Size = UDim2.new(1, 0, 0, 0)}, options.tween_time)
@@ -1490,6 +1497,7 @@ function library:AddWindow(title, options)
 
 							object.Activated:Connect(function()
 								if dropdown_open then
+                                    scrollPos = objects.CanvasPosition
 									dropdown.Text = "      [ " .. n .. " ]"
 									dropdown_open = false
 									open = false
