@@ -1417,7 +1417,7 @@ function library:AddWindow(title, options)
 
 						return keybind_data, keybind
 					end
-                    local scrollPos
+                    local scrollPos = Vector2.new(0, 0)
 					function tab_data:AddDropdown(dropdown_name, callback)
 						local dropdown_data = {}
 						dropdown_name = tostring(dropdown_name or "New Dropdown")
