@@ -1458,7 +1458,7 @@ function library:AddWindow(title, options)
 								dropdown_open = true
 								Resize(box, {Size = UDim2.new(1, 0, 0, len)}, options.tween_time)
 								Resize(indicator, {Rotation = 90}, options.tween_time)
-                                boxTween.Completed:Connect(function()
+                                Resize.Completed:Connect(function()
                                     objects.CanvasPosition = scrollPos  -- Restore saved scroll position
                                 end)
 							else -- Close
