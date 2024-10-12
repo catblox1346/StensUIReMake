@@ -983,11 +983,9 @@ function library:AddWindow(title, options)
 
     local UserInputService = game:GetService("UserInputService")
 
-    local UserInputService = game:GetService("UserInputService")
-
     local Dragger = {}
     Dragger.__index = Dragger
-    
+
     function Dragger.new(frame)
         local self = setmetatable({}, Dragger)
         self.frame = frame
@@ -996,70 +994,78 @@ function library:AddWindow(title, options)
         self.startInputPosition = nil
         self.draggable = true
         self.draggerCache = true
-    
+
         self.frame.Active = true
-    
-        -- Mouse leave - stop drag cache
-        self.frame.MouseLeave:Connect(function()
-            self.draggerCache = false
-        end)
-    
-        -- Mouse enter - enable drag cache
-        self.frame.MouseEnter:Connect(function()
-            self.draggerCache = true
-        end)
-    
-        -- Input changed (used to track dragging motion)
+
+        self.frame.MouseLeave:Connect(
+            function()
+                self.draggerCache = false
+            end
+        )
+
+        self.frame.MouseEnter:Connect(
+            function()
+                self.draggerCache = true
+            end
+        )
+
         function self:onInputChanged(input)
-            if self.held and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-                local delta = input.Position - self.startInputPosition
+            if self.held then
+                local currentMousePos = input.Position
+                local delta = currentMousePos - self.startInputPosition
                 local newPosition = self.startPosition + UDim2.new(0, delta.X, 0, delta.Y)
-                -- Smooth movement using Lerp
-                self.frame.Position = self.frame.Position:Lerp(newPosition, 0.25)
+                self.frame.Position = self.frame.Position:Lerp(newPosition, 0.2)
             end
         end
-    
-        -- Input ended (used to stop dragging)
+
         function self:onInputEnded(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                 self.held = false
             end
         end
-    
-        -- Input began (used to start dragging)
-        self.frame.InputBegan:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-                if self.draggerCache and self.draggable then
-                    self.held = true
-                    self.startPosition = self.frame.Position
-                    self.startInputPosition = input.Position
-    
-                    -- Detect when the input ends (i.e., mouse released)
-                    input.Changed:Connect(function()
-                        if input.UserInputState == Enum.UserInputState.End then
-                            self:onInputEnded(input)
-                        end
-                    end)
+
+        self.frame.InputBegan:Connect(
+            function(input)
+                if
+                    input.UserInputType == Enum.UserInputType.MouseButton1 or
+                        input.UserInputType == Enum.UserInputType.Touch
+                 then
+                    if self.draggerCache and self.draggable then
+                        self.held = true
+                        self.startPosition = self.frame.Position
+                        self.startInputPosition = input.Position
+
+                        input.Changed:Connect(
+                            function()
+                                if input.UserInputState == Enum.UserInputState.End then
+                                    self:onInputEnded(input)
+                                end
+                            end
+                        )
+                    end
                 end
             end
-        end)
-    
-        -- Handle input changes (moving the mouse)
-        UserInputService.InputChanged:Connect(function(input)
-            self:onInputChanged(input)
-        end)
-    
+        )
+
+        UserInputService.InputChanged:Connect(
+            function(input)
+                if
+                    input.UserInputType == Enum.UserInputType.MouseMovement or
+                        input.UserInputType == Enum.UserInputType.Touch
+                 then
+                    self:onInputChanged(input)
+                end
+            end
+        )
+
         return self
     end
-    
-    -- Set whether the frame is draggable or not
+
     function Dragger:setDraggable(isDraggable)
         self.draggable = isDraggable
     end
-    
-    -- Example usage: Make the 'Window' GUI draggable
+
     local myDragger = Dragger.new(Window)
-    
 
 	do -- Resize Window
 		local oldIcon = mouse.Icon
