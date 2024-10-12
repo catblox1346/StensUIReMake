@@ -1014,7 +1014,7 @@ function library:AddWindow(title, options)
                 local currentMousePos = input.Position
                 local delta = currentMousePos - self.startInputPosition
                 local newPosition = self.startPosition + UDim2.new(0, delta.X, 0, delta.Y)
-                self.frame.Position = self.frame.Position:Lerp(newPosition, 0.2)
+                self.frame.Position = self.frame.Position:Lerp(newPosition, 0.05)
             end
         end
 
