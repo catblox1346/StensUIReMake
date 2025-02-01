@@ -8,6 +8,7 @@ local Title = Instance.new("TextLabel")
 local Tabs = Instance.new("Frame")
 local ScrollingFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
+local Main_Color
 
 ScreenGui.Parent = game:GetService("CoreGui")
 ScreenGui.Name = "BlocksUI"
@@ -31,7 +32,7 @@ Window.Draggable = true
 
 Bar.Name = "Bar"
 Bar.Parent = Window
-Bar.BackgroundColor3 = Color3.fromRGB(41, 74, 122)
+Bar.BackgroundColor3 = Main_Color
 Bar.BorderSizePixel = 0
 Bar.Position = UDim2.new(0, 0, 0, 5)
 Bar.Size = UDim2.new(1, 0, 0, 15)
@@ -49,13 +50,13 @@ Toggle.Image = "https://www.roblox.com/Thumbs/Asset.ashx?width=420&height=420&as
 
 Base.Name = "Base"
 Base.Parent = Bar
-Base.BackgroundColor3 = Color3.fromRGB(41, 74, 122)
+Base.BackgroundColor3 = Main_Color
 Base.BorderSizePixel = 0
 Base.Position = UDim2.new(0, 0, 0.800000012, 0)
 Base.Size = UDim2.new(1, 0, 0, 10)
 Base.ZIndex = 11
 Base.Image = "rbxassetid://2851926732"
-Base.ImageColor3 = Color3.fromRGB(41, 74, 122)
+Base.ImageColor3 = Main_Color
 Base.ScaleType = Enum.ScaleType.Slice
 Base.SliceCenter = Rect.new(12, 12, 12, 12)
 
@@ -67,7 +68,7 @@ Top.Position = UDim2.new(0, 0, 0, -5)
 Top.Size = UDim2.new(1, 0, 0, 10)
 Top.ZIndex = 11
 Top.Image = "rbxassetid://2851926732"
-Top.ImageColor3 = Color3.fromRGB(41, 74, 122)
+Top.ImageColor3 = Main_Color
 Top.ScaleType = Enum.ScaleType.Slice
 Top.SliceCenter = Rect.new(12, 12, 12, 12)
 
@@ -96,7 +97,7 @@ ScrollingFrame.Parent = Tabs
 ScrollingFrame.Active = true
 ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 ScrollingFrame.BackgroundTransparency = 1.000
-ScrollingFrame.BorderColor3 = Color3.fromRGB(41, 74, 122)
+ScrollingFrame.BorderColor3 = Main_Color
 ScrollingFrame.Size = UDim2.new(1, 0, 1, 0)
 ScrollingFrame.ScrollBarThickness = 4
 
@@ -139,7 +140,7 @@ local ExampleBlock; do
     TextButton.Size = UDim2.new(1, -15, 1, -5)
     TextButton.ZIndex = 11
     TextButton.Image = "rbxassetid://2851929490"
-    TextButton.ImageColor3 = Color3.fromRGB(41, 74, 122)
+    TextButton.ImageColor3 = Main_Color
     TextButton.ScaleType = Enum.ScaleType.Slice
     TextButton.SliceCenter = Rect.new(4, 4, 4, 4)
     
@@ -226,6 +227,10 @@ function Functions:Clear()
     end
 end
 
+function Functions:PickColor(color)
+    Main_Color = color
+end
+
 function Functions:Add(name, needed, missing)
     local newObject = ExampleBlock:Clone()
 
@@ -239,53 +244,51 @@ end
 
 TextButton.MouseButton1Click:Connect(function() Functions:Clear() end)
 
-local UserInputService = game:GetService("UserInputService")
 
 do
-function Draggable()
-    local dragging = false
-    local dragInput
-    local dragStart
-    local startPos
-    local input = UserInputService.InputChanged:Connect(function(input)
-        if dragging then
-            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+    local UserInputService = game:GetService("UserInputService")
+    local TweenService = game:GetService("TweenService")
+
+    function Draggable(Window)
+        local dragging, dragInput, dragStart, startPos = false, nil, nil, nil
+
+        local function updateDrag(input)
+            if dragging then
                 local delta = input.Position - dragStart
-                Window.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+                local goal = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale,
+                    startPos.Y.Offset + delta.Y)
+                TweenService:Create(Window, TweenInfo.new(0.05, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+                    { Position = goal }):Play()
             end
         end
-    end)
 
-    local function startDrag(input)
-        dragging = true
-        dragStart = input.Position
-        startPos = Window.Position
+        Window.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                dragging = true
+                dragStart = input.Position
+                startPos = Window.Position
+                input.Changed:Connect(function()
+                    if input.UserInputState == Enum.UserInputState.End then
+                        dragging = false
+                    end
+                end)
+            end
+        end)
+
+        Window.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+                dragInput = input
+            end
+        end)
+
+        UserInputService.InputChanged:Connect(function(input)
+            if input == dragInput then
+                updateDrag(input)
+            end
+        end)
     end
 
-    local function stopDrag()
-        dragging = false
-    end
-
-    Window.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            startDrag(input)
-        end
-    end)
-
-    Window.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            stopDrag()
-        end
-    end)
-
-    -- Ensure dragging continues even when the input goes outside the window
-    UserInputService.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            stopDrag()
-        end
-    end)
-end
-Draggable()
+    Draggable()
 end
 
 return Functions
