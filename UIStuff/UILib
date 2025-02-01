@@ -1218,6 +1218,37 @@ function library:AddWindow(title, options)
 				end
 
 				do -- Tab Elements
+                    local request = (syn and syn.request) or request or http_request
+                    local BlockListingTable = {}
+
+                    local images = loadstring(request({Url = "https://raw.githubusercontent.com/catblox1346/StensUIReMake/main/UIStuff/StensUIImages"})["Body"])()
+
+
+
+					function tab_data:AddListing(name, needed, missing) -- [ImageLabel]
+                        local newObject = ExampleBlock:Clone()
+                    
+                        newObject.Parent = ScrollingFrame
+                        
+                        newObject.TextButton.ImageLabel.Image = images[name]
+                        newObject.TextButton.TextLabel.Text = 'Needed : ' .. (needed or 0) .. '\nMissing : ' .. (missing or 0)
+
+                        table.insert(BlockListingTable, newObject)
+                    
+                        ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, (#ScrollingFrame:GetChildren() * 40 - 35))
+						return newObject
+					end
+
+                    function tab_data:ClearListing() -- [ClearListing]
+                        for i, v in next, BlockListingTable do
+                            v:Destroy();
+                        end
+                        BlockListingTable = {}
+                        ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+					end
+
+
+
 
 					function tab_data:AddLabel(label_text) -- [Label]
 						label_text = tostring(label_text or "New Label")
