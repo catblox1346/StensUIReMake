@@ -219,16 +219,17 @@ end
 
 local Functions = {}
 
+function Functions:PickColor(color)
+    Main_Color = color
+end
+
+
 function Functions:Clear()
     for i, v in next, ScrollingFrame:GetChildren() do
         if (not v:IsA("UIListLayout")) then
             v:Destroy();
         end
     end
-end
-
-function Functions:PickColor(color)
-    Main_Color = color
 end
 
 function Functions:Add(name, needed, missing)
@@ -288,7 +289,7 @@ do
         end)
     end
 
-    Draggable()
+    Draggable(Window)
 end
 
 return Functions
