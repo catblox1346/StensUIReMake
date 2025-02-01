@@ -5,6 +5,9 @@ local ui_options = {
 	can_resize = true,
 }
 
+local request = (syn and syn.request) or request or http_request
+local images = loadstring(request({Url = "https://raw.githubusercontent.com/catblox1346/StensUIReMake/main/UIStuff/StensUIImages"})["Body"])()
+
 do
 	local imgui = game:GetService("CoreGui"):FindFirstChild("imgui")
 	if imgui then imgui:Destroy() end
@@ -1218,14 +1221,10 @@ function library:AddWindow(title, options)
 				end
 
 				do -- Tab Elements
-                    local request = (syn and syn.request) or request or http_request
                     local BlockListingTable = {}
 
-                    local images = loadstring(request({Url = "https://raw.githubusercontent.com/catblox1346/StensUIReMake/main/UIStuff/StensUIImages"})["Body"])()
-
-
-
 					function tab_data:AddListing(name, needed, missing) -- [ImageLabel]
+                        print("test")
                         local newObject = ExampleBlock:Clone()
                     
                         newObject.Parent = ScrollingFrame
