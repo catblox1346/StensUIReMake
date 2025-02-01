@@ -29,7 +29,7 @@ local TabSelection = Instance.new("ImageLabel")
 local TabButtons = Instance.new("Frame")
 local UIListLayout = Instance.new("UIListLayout")
 local Frame = Instance.new("Frame")
-local Tab = Instance.new("Frame")
+local Tab = Instance.new("ScrollingFrame") -- Frame
 local UIListLayout_2 = Instance.new("UIListLayout")
 local TextBox = Instance.new("TextBox")
 local TextBox_Roundify_4px = Instance.new("ImageLabel")
@@ -965,7 +965,7 @@ function library:AddWindow(title, options)
         TextButton.BackgroundTransparency = 1.000
         TextButton.Position = UDim2.new(0, 5, 0, 5)
         TextButton.Size = UDim2.new(1, -15, 1, -5)
-        TextButton.ZIndex = 11
+        TextButton.ZIndex = 21
         TextButton.Image = "rbxassetid://2851929490"
         TextButton.ImageColor3 = options.main_color
         TextButton.ScaleType = Enum.ScaleType.Slice
@@ -976,7 +976,7 @@ function library:AddWindow(title, options)
         ImageLabel.BackgroundTransparency = 1.000
         ImageLabel.Size = UDim2.new(0, 40, 1, 0)
         ImageLabel.Image = "rbxassetid://845567732"
-        ImageLabel.ZIndex = 12
+        ImageLabel.ZIndex = 22
     
         TextLabel.Parent = TextButton
         TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -989,7 +989,7 @@ function library:AddWindow(title, options)
         TextLabel.TextSize = 14.000
         TextLabel.TextXAlignment = Enum.TextXAlignment.Left
         TextLabel.RichText = true
-        TextLabel.ZIndex = 13
+        TextLabel.ZIndex = 23
     
         ExampleBlock = Block
     end
@@ -1231,6 +1231,7 @@ function library:AddWindow(title, options)
                 local tab_data = {}
                 tab_name = tostring(tab_name or "New Tab")
                 tab_selection.Visible = true
+                tab_selection.ScrollingEnabled = options.Scrolling_Enabled or false
 
                 local new_button = Prefabs:FindFirstChild("TabButton"):Clone()
                 new_button.Parent = tab_buttons
@@ -1279,7 +1280,7 @@ function library:AddWindow(title, options)
                         newObject.TextButton.TextLabel.Text = 'Needed : ' ..
                         (needed or 0) .. '\nMissing : ' .. (missing or 0)
 
-                        --new_tab.CanvasSize = UDim2.new(0, 0, 0, (#new_tab:GetChildren() * 40 - 35))
+                        new_tab.CanvasSize = UDim2.new(0, 0, 0, (#new_tab:GetChildren() * 40 - 35))
                         return newObject
                     end
 
