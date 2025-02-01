@@ -10,6 +10,17 @@ local ScrollingFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
 local Main_Color = Color3.fromRGB(0, 0, 0)
 
+
+do
+local QuickFuncs = {}
+
+function QuickFuncs:PickColor(color)
+    Main_Color = color
+end
+return QuickFuncs
+end
+
+
 ScreenGui.Parent = game:GetService("CoreGui")
 ScreenGui.Name = "BlocksUI"
 
@@ -219,10 +230,6 @@ end
 
 local Functions = {}
 
-function Functions:PickColor(color)
-    Main_Color = color
-end
-
 
 function Functions:Clear()
     for i, v in next, ScrollingFrame:GetChildren() do
@@ -258,7 +265,7 @@ do
                 local delta = input.Position - dragStart
                 local goal = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale,
                     startPos.Y.Offset + delta.Y)
-                TweenService:Create(Window, TweenInfo.new(0.05, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
+                TweenService:Create(Window, TweenInfo.new(0.1, Enum.EasingStyle.Sine, Enum.EasingDirection.Out),
                     { Position = goal }):Play()
             end
         end
