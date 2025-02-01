@@ -1243,7 +1243,8 @@ function library:AddWindow(title, options)
                 new_tab.Parent = tabs
                 new_tab.ZIndex = new_tab.ZIndex + (windows * 10)
                 new_tab.ScrollingEnabled = options.Scrolling_Enabled or false
-
+                new_tab.ScrollBarThickness = options.Scroll_Bar_Thickness or 0
+                new_tab.ScrollBarImageTranspracy = options.Scroll_Bar_Transpracy or 1
 
                 local function show()
                     if dropdown_open then return end
