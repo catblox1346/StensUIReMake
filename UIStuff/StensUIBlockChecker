@@ -8,7 +8,7 @@ local Title = Instance.new("TextLabel")
 local Tabs = Instance.new("Frame")
 local ScrollingFrame = Instance.new("ScrollingFrame")
 local UIListLayout = Instance.new("UIListLayout")
-local Main_Color
+local Main_Color = Color3.fromRGB(0, 0, 0)
 
 ScreenGui.Parent = game:GetService("CoreGui")
 ScreenGui.Name = "BlocksUI"
