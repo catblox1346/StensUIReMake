@@ -826,7 +826,7 @@ local ExampleBlock; do
     TextButton.Size = UDim2.new(1, -15, 1, -5)
     TextButton.ZIndex = 11
     TextButton.Image = "rbxassetid://2851929490"
-    TextButton.ImageColor3 = Color3.fromRGB(41, 74, 122)
+    TextButton.ImageColor3 = main_color
     TextButton.ScaleType = Enum.ScaleType.Slice
     TextButton.SliceCenter = Rect.new(4, 4, 4, 4)
 
@@ -1276,7 +1276,7 @@ function library:AddWindow(title, options)
                         newObject.TextButton.TextLabel.Text = 'Needed : ' ..
                         (needed or 0) .. '\nMissing : ' .. (missing or 0)
 
-                        new_tab.CanvasSize = UDim2.new(0, 0, 0, (#new_tab:GetChildren() * 40 - 35))
+                        --new_tab.CanvasSize = UDim2.new(0, 0, 0, (#new_tab:GetChildren() * 40 - 35))
                         return newObject
                     end
 
