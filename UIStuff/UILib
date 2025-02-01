@@ -806,52 +806,8 @@ Windows.BackgroundTransparency = 1
 Windows.Position = UDim2.new(0, 20, 0, 20)
 Windows.Size = UDim2.new(1, 20, 1, -20)
 
-local maincolor
-local ExampleBlock; do
-    local Block = Instance.new("Frame")
-    local TextButton = Instance.new("ImageLabel")
-    local ImageLabel = Instance.new("ImageLabel")
-    local TextLabel = Instance.new("TextLabel")
 
-    Block.Name = "Block"
-    Block.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Block.BackgroundTransparency = 1.000
-    Block.Size = UDim2.new(1, 0, 0, 40)
-
-    TextButton.Name = "TextButton"
-    TextButton.Parent = Block
-    TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    TextButton.BackgroundTransparency = 1.000
-    TextButton.Position = UDim2.new(0, 5, 0, 5)
-    TextButton.Size = UDim2.new(1, -15, 1, -5)
-    TextButton.ZIndex = 11
-    TextButton.Image = "rbxassetid://2851929490"
-    TextButton.ImageColor3 = maincolor
-    TextButton.ScaleType = Enum.ScaleType.Slice
-    TextButton.SliceCenter = Rect.new(4, 4, 4, 4)
-
-    ImageLabel.Parent = TextButton
-    ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    ImageLabel.BackgroundTransparency = 1.000
-    ImageLabel.Size = UDim2.new(0, 40, 1, 0)
-    ImageLabel.Image = "rbxassetid://845567732"
-    ImageLabel.ZIndex = 12
-
-    TextLabel.Parent = TextButton
-    TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    TextLabel.BackgroundTransparency = 1.000
-    TextLabel.Position = UDim2.new(0, 50, 0, 0)
-    TextLabel.Size = UDim2.new(1, -50, 1, 0)
-    TextLabel.Font = Enum.Font.GothamBold
-    TextLabel.Text = "Needed : 1\nMissing : 0"
-    TextLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
-    TextLabel.TextSize = 14.000
-    TextLabel.TextXAlignment = Enum.TextXAlignment.Left
-    TextLabel.RichText = true
-    TextLabel.ZIndex = 13
-
-    ExampleBlock = Block
-end
+local ExampleBlock
 
 --[[ Script ]] --
 
@@ -991,7 +947,53 @@ function library:FormatWindows()
 end
 
 function library:AddWindow(title, options)
-    maincolor = options.main_color
+
+    do
+        local Block = Instance.new("Frame")
+        local TextButton = Instance.new("ImageLabel")
+        local ImageLabel = Instance.new("ImageLabel")
+        local TextLabel = Instance.new("TextLabel")
+    
+        Block.Name = "Block"
+        Block.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Block.BackgroundTransparency = 1.000
+        Block.Size = UDim2.new(1, 0, 0, 40)
+    
+        TextButton.Name = "TextButton"
+        TextButton.Parent = Block
+        TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        TextButton.BackgroundTransparency = 1.000
+        TextButton.Position = UDim2.new(0, 5, 0, 5)
+        TextButton.Size = UDim2.new(1, -15, 1, -5)
+        TextButton.ZIndex = 11
+        TextButton.Image = "rbxassetid://2851929490"
+        TextButton.ImageColor3 = options.main_color
+        TextButton.ScaleType = Enum.ScaleType.Slice
+        TextButton.SliceCenter = Rect.new(4, 4, 4, 4)
+    
+        ImageLabel.Parent = TextButton
+        ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        ImageLabel.BackgroundTransparency = 1.000
+        ImageLabel.Size = UDim2.new(0, 40, 1, 0)
+        ImageLabel.Image = "rbxassetid://845567732"
+        ImageLabel.ZIndex = 12
+    
+        TextLabel.Parent = TextButton
+        TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        TextLabel.BackgroundTransparency = 1.000
+        TextLabel.Position = UDim2.new(0, 50, 0, 0)
+        TextLabel.Size = UDim2.new(1, -50, 1, 0)
+        TextLabel.Font = Enum.Font.GothamBold
+        TextLabel.Text = "Needed : 1\nMissing : 0"
+        TextLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+        TextLabel.TextSize = 14.000
+        TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+        TextLabel.RichText = true
+        TextLabel.ZIndex = 13
+    
+        ExampleBlock = Block
+    end
+
     windows = windows + 1
     local dropdown_open = false
     title = tostring(title or "New Window")
