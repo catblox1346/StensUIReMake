@@ -1266,7 +1266,6 @@ function library:AddWindow(title, options)
                 end
 
                 do -- Tab Elements
-                    local BlockListingTable = {}
 
                     function tab_data:AddListing(name, needed, missing) -- [ImageLabel]
                         local newObject = ExampleBlock:Clone()
@@ -1277,18 +1276,16 @@ function library:AddWindow(title, options)
                         newObject.TextButton.TextLabel.Text = 'Needed : ' ..
                         (needed or 0) .. '\nMissing : ' .. (missing or 0)
 
-                        table.insert(BlockListingTable, newObject)
-
                         new_tab.CanvasSize = UDim2.new(0, 0, 0, (#new_tab:GetChildren() * 40 - 35))
                         return newObject
                     end
 
                     function tab_data:ClearListing() -- [ClearListing]
-                        for i, v in next, BlockListingTable do
-                            v:Destroy();
+                        for i, v in next, new_tab:GetChildren() do
+                            if (not v:IsA("UIListLayout")) then
+                                v:Destroy();
+                            end
                         end
-                        BlockListingTable = {}
-                        new_tab.CanvasSize = UDim2.new(0, 0, 0, 0)
                     end
 
                     function tab_data:AddLabel(label_text) -- [Label]
