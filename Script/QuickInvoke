@@ -1,0 +1,9 @@
+local invokes = {}
+
+function invokes:QuickInvoke(tool, blockType, UserownedAmount, pos, SecondaryPartpos)
+    if tool then
+        tool:InvokeServer(blockType, UserownedAmount, nil, nil, true, pos, SecondaryPartpos)
+    end
+end
+
+return invokes
