@@ -1,8 +1,8 @@
 local invokes = {}
 
-function invokes:QuickInvoke(tool, blockType, UserownedAmount, pos, SecondaryPartpos)
+function invokes:QuickInvoke(tool, ...)
     if tool then
-        tool:InvokeServer(blockType, UserownedAmount, nil, nil, true, pos, SecondaryPartpos)
+        tool:InvokeServer(...)
     end
 end
 
