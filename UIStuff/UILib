@@ -2240,7 +2240,6 @@ function library:AddWindow(title, options)
                             local Rows = #Children - 2
                             local Padding = UIListLayout.Padding.Offset * 2
                     
-                            -- Adjust only when Fill() is called
                             for _, Child in ipairs(Children) do
                                 if Child:IsA("GuiObject") then
                                     pcall(function()
