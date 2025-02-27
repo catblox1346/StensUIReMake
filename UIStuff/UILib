@@ -1180,10 +1180,14 @@ function library:AddWindow(title, options)
             myDragger:setDraggable(true)
         end)
 
-        if options.can_resize then
+        if options.can_resize == true then
             local Resizer = Window:FindFirstChild("Resizer")
             local ResizerText = Resizer:FindFirstChild("TextBox_1")
             ResizerText.Visible = true
+        else
+            local Resizer = Window:FindFirstChild("Resizer")
+            local ResizerText = Resizer:FindFirstChild("TextBox_1")
+            ResizerText.Visible = false
         end
 
         local Held = false
