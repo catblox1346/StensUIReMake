@@ -147,6 +147,7 @@ TextBox_1.Size = UDim2.new(0, 20, 0, 20)
 TextBox_1.TextSize = 20
 TextBox_1.TextEditable = false
 TextBox_1.Visible = false
+TextBox_1.ClearTextOnFocus = false
 TextBox_1.TextColor3 = Color3.new(1, 1, 1)
 
 
