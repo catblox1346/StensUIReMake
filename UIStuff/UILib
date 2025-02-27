@@ -50,6 +50,9 @@ local TextButton_Roundify_4px = Instance.new("ImageLabel")
 local TabButton = Instance.new("TextButton")
 local TextButton_Roundify_4px_2 = Instance.new("ImageLabel")
 local Folder = Instance.new("ImageLabel")
+local Row = Instance.new("Frame")
+local UIListLayout_7 = Instance.new("UIListLayout")
+local UIPadding = Instance.new("UIPadding")
 local Button = Instance.new("TextButton")
 local TextButton_Roundify_4px_3 = Instance.new("ImageLabel")
 local Toggle_2 = Instance.new("ImageLabel")
@@ -433,6 +436,26 @@ Button.Text = "      Folder"
 Button.TextColor3 = Color3.new(1, 1, 1)
 Button.TextSize = 14
 Button.TextXAlignment = Enum.TextXAlignment.Left
+
+Row.Name = "Row"
+Row.Parent = Prefabs
+Row.BackgroundColor3 = Color3.new(1, 1, 1)
+Row.BackgroundTransparency = 1
+Row.Position = UDim2.new(0, 0, 0, 100)
+Row.Size = UDim2.new(1, 0, 0, 20)
+
+UIListLayout_7.Parent = Row
+UIListLayout_7.Padding = UDim.new(0, 5)
+UIListLayout_7.HorizontalAlignment = Enum.HorizontalAlignment.Center
+
+UIPadding.Parent = Row
+UIPadding.PaddingLeft = UDim.new(0, 5)
+UIPadding.PaddingRight = UDim.new(0, 5)
+
+
+
+
+
 
 TextButton_Roundify_4px_3.Name = "TextButton_Roundify_4px"
 TextButton_Roundify_4px_3.Parent = Button
@@ -2197,9 +2220,9 @@ function library:AddWindow(title, options)
                         local row_data = {}
                     
                         Config = Config or {}
-                        local Row = Prefabs.Row:Clone()
-                        local UIListLayout = Row:FindFirstChildOfClass("UIListLayout")
-                        local UIPadding = Row:FindFirstChildOfClass("UIPadding")
+                        local Row = Prefabs:FindFirstChild("Row"):Clone()
+                        local UIListLayout = Row:FindFirstChild("UIListLayout")
+                        local UIPadding = Row:FindFirstChild("UIPadding")
                     
                         if Config.Spacing then
                             UIListLayout.Padding = UDim.new(0, Config.Spacing)
@@ -2226,7 +2249,7 @@ function library:AddWindow(title, options)
                             end
                             return Config
                         end
-                        
+
                         return row_data, Row
                     end
                     
