@@ -2218,7 +2218,7 @@ function library:AddWindow(title, options)
 
                     function tab_data:Row(Config)
                         local row_data = {}
-                        
+                    
                         Config = Config or {}
                         local Row = Prefabs:FindFirstChild("Row"):Clone()
                         local UIListLayout = Row:FindFirstChild("UIListLayout") or Instance.new("UIListLayout")
@@ -2228,6 +2228,7 @@ function library:AddWindow(title, options)
                         UIListLayout.FillDirection = Enum.FillDirection.Horizontal
                         UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
                         UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+                        UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
                         UIListLayout.Padding = UDim.new(0, Config.Spacing or 5)
                     
                         UIPadding.Parent = Row
@@ -2239,14 +2240,14 @@ function library:AddWindow(title, options)
                             local Rows = #Children - 2
                             local Padding = UIListLayout.Padding.Offset * 2
                     
+                            -- Adjust only when Fill() is called
                             for _, Child in ipairs(Children) do
-                                local YScale = 0
-                                if Child:IsA("ImageButton") then
-                                    YScale = 1
+                                if Child:IsA("GuiObject") then
+                                    pcall(function()
+                                        local currentY = Child.Size.Y.Scale > 0 and Child.Size.Y.Scale or UDim.new(0, Child.Size.Y.Offset)
+                                        Child.Size = UDim2.new(1 / math.max(Rows, 1), -Padding, currentY, 0)
+                                    end)
                                 end
-                                pcall(function()
-                                    Child.Size = UDim2.new(1 / math.max(Rows, 1), -Padding, YScale, 0)
-                                end)
                             end
                             return self
                         end
@@ -2268,6 +2269,7 @@ function library:AddWindow(title, options)
                     
                         return row_data, Row
                     end
+                    
                     
                     
                     
