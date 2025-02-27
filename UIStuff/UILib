@@ -2243,8 +2243,8 @@ function library:AddWindow(title, options)
                             for _, Child in ipairs(Children) do
                                 if Child:IsA("GuiObject") then
                                     pcall(function()
-                                        local currentY = Child.Size.Y.Scale > 0 and Child.Size.Y.Scale or UDim.new(0, Child.Size.Y.Offset)
-                                        Child.Size = UDim2.new(1 / math.max(Rows, 1), -Padding, currentY, 0)
+                                        local currentY = Child.Size.Y
+                                        Child.Size = UDim2.new(1 / math.max(Rows, 1), -Padding, currentY.Scale, currentY.Offset)
                                     end)
                                 end
                             end
@@ -2268,6 +2268,7 @@ function library:AddWindow(title, options)
                     
                         return row_data, Row
                     end
+                    
                     
                     
                     
