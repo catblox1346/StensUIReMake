@@ -2227,7 +2227,7 @@ function library:AddWindow(title, options)
                         UIListLayout.Parent = Row
                         UIListLayout.FillDirection = Enum.FillDirection.Horizontal
                         UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Left
-                        UIListLayout.SortOrder = Enum.SortOrder.Custom
+                        UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
                         UIListLayout.Padding = UDim.new(0, Config.Spacing or 5)
                     
                         UIPadding.Parent = Row
