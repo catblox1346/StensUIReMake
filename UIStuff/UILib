@@ -138,7 +138,7 @@ Resizer.Size = UDim2.new(0, 20, 0, 20)
 
 TextBox_1.Name = "TextBox_1"
 TextBox_1.Parent = Resizer
-TextBox_1.PlaceHolderText = "◢"
+TextBox_1.Text = "◢"
 TextBox_1.BackgroundColor3 = Color3.new(1, 1, 1)
 TextBox_1.BackgroundTransparency = 1
 TextBox_1.BorderSizePixel = 0
@@ -148,7 +148,7 @@ TextBox_1.TextSize = 20
 TextBox_1.TextEditable = false
 TextBox_1.Visible = false
 TextBox_1.ClearTextOnFocus = false
-TextBox_1.PlaceHolderColor3 = Color3.new(1, 1, 1)
+TextBox_1.TextColor3 = Color3.new(1, 1, 1)
 TextBox_1.TextSelectable = false
 
 
@@ -1072,7 +1072,7 @@ function library:AddWindow(title, options)
 
     local Resizer = Window:FindFirstChild("Resizer")
     local ResizerText = Resizer:FindFirstChild("TextBox_1")
-    ResizerText.PlaceHolderColor3 = options.main_color
+    ResizerText.TextColor3 = options.main_color
 
     local window_data = {}
 
