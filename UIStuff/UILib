@@ -145,6 +145,8 @@ TextBox_1.BorderSizePixel = 0
 TextBox_1.Position = UDim2.new(1, -20, 1, -20)
 TextBox_1.Size = UDim2.new(0, 20, 0, 20)
 TextBox_1.TextSize = 20
+TextBox_1.TextEditable = false
+TextBox_1.Visible = false
 TextBox_1.TextColor3 = Color3.new(1, 1, 1)
 
 
@@ -1185,6 +1187,9 @@ function library:AddWindow(title, options)
 
                 spawn(function() -- Loop check
                     if Entered and Resizer.Active and options.can_resize then
+                        local Resizer = Window:FindFirstChild("Resizer")
+                        local ResizerText = Resizer:FindFirstChild("TextBox_1")
+                        ResizerText.Visible = true
                         while Held and Resizer.Active do
                             local mouse_location = gMouse()
                             local x = mouse_location.X - Window.AbsolutePosition.X
