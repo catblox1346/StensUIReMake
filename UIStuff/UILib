@@ -1067,7 +1067,7 @@ function library:AddWindow(title, options)
     end
 
     local Resizer = Window:WaitForChild("Resizer")
-    local ResizerText = Resizer:FindFirstChild("TextBox")
+    local ResizerText = Resizer:FindFirstChild("TextBox_1")
     ResizerText.TextColor3 = options.main_color
 
     local window_data = {}
