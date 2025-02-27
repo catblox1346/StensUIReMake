@@ -1180,6 +1180,12 @@ function library:AddWindow(title, options)
             myDragger:setDraggable(true)
         end)
 
+        if options.can_resize then
+            local Resizer = Window:FindFirstChild("Resizer")
+            local ResizerText = Resizer:FindFirstChild("TextBox_1")
+            ResizerText.Visible = true
+        end
+
         local Held = false
         UIS.InputBegan:Connect(function(inputObject)
             if inputObject.UserInputType == Enum.UserInputType.MouseButton1 or inputObject.UserInputType == Enum.UserInputType.Touch then
@@ -1187,9 +1193,6 @@ function library:AddWindow(title, options)
 
                 spawn(function() -- Loop check
                     if Entered and Resizer.Active and options.can_resize then
-                        local Resizer = Window:FindFirstChild("Resizer")
-                        local ResizerText = Resizer:FindFirstChild("TextBox_1")
-                        ResizerText.Visible = true
                         while Held and Resizer.Active do
                             local mouse_location = gMouse()
                             local x = mouse_location.X - Window.AbsolutePosition.X
