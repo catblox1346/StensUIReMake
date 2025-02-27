@@ -2228,7 +2228,7 @@ function library:AddWindow(title, options)
                             UIListLayout.Padding = UDim.new(0, Config.Spacing)
                         end
                     
-                        function Config:Fill()
+                        function tab_data:Fill()
                             local Children = Row:GetChildren()
                             local Rows = #Children - 2
                     
@@ -2247,7 +2247,7 @@ function library:AddWindow(title, options)
                                     Child.Size = UDim2.new(1 / Rows, -Padding, YScale, 0)
                                 end)
                             end
-                            return Config
+                            return tab_data
                         end
                     
                         for i, v in next, tab_data do
