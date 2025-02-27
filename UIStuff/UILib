@@ -2192,6 +2192,45 @@ function library:AddWindow(title, options)
 
                         return folder_data, folder
                     end
+
+                    function tab_data:Row(Config)
+                        local row_data = {}
+                    
+                        Config = Config or {}
+                        local Row = Prefabs.Row:Clone()
+                        local UIListLayout = Row:FindFirstChildOfClass("UIListLayout")
+                        local UIPadding = Row:FindFirstChildOfClass("UIPadding")
+                    
+                        if Config.Spacing then
+                            UIListLayout.Padding = UDim.new(0, Config.Spacing)
+                        end
+                    
+                        function Config:Fill()
+                            local Children = Row:GetChildren()
+                            local Rows = #Children - 2
+                    
+                            local Padding = UIListLayout.Padding.Offset * 2
+                            UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+                    
+                            UIPadding.PaddingLeft = UIListLayout.Padding
+                            UIPadding.PaddingRight = UIListLayout.Padding
+                    
+                            for _, Child in next, Children do
+                                local YScale = 0
+                                if Child:IsA("ImageButton") then
+                                    YScale = 1
+                                end
+                                pcall(function()
+                                    Child.Size = UDim2.new(1 / Rows, -Padding, YScale, 0)
+                                end)
+                            end
+                            return Config
+                        end
+                        
+                        return row_data, Row
+                    end
+                    
+
                 end
 
                 return tab_data, new_tab
