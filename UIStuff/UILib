@@ -144,8 +144,8 @@ TextBox_1.BackgroundTransparency = 1
 TextBox_1.BorderSizePixel = 0
 TextBox_1.Position = UDim2.new(1, -20, 1, -20)
 TextBox_1.Size = UDim2.new(0, 20, 0, 20)
-TextBox_1.TextSize = 14
-TextBox_1.TextColor3 = Color3.new(0, 0, 0)
+TextBox_1.TextSize = 20
+TextBox_1.TextColor3 = Color3.new(1, 1, 1)
 
 
 
@@ -1067,7 +1067,8 @@ function library:AddWindow(title, options)
     end
 
     local Resizer = Window:WaitForChild("Resizer")
-    TextBox_1.TextColor3 = options.main_color
+    local ResizerText = Resizer:FindFirstChild("TextBox")
+    ResizerText.TextColor3 = options.main_color
 
     local window_data = {}
 
