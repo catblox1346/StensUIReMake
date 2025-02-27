@@ -2249,9 +2249,27 @@ function library:AddWindow(title, options)
                             end
                             return Config
                         end
-
+                    
+                        for i, v in next, tab_data do
+                            row_data[i] = function(...)
+                                local data, object
+                                local ret = { v(...) }
+                                if typeof(ret[1]) == "table" then
+                                    data = ret[1]
+                                    object = ret[2]
+                                    object.Parent = Row
+                                    return data, object
+                                else
+                                    object = ret[1]
+                                    object.Parent = Row
+                                    return object
+                                end
+                            end
+                        end
+                    
                         return row_data, Row
                     end
+                    
                     
 
                 end
