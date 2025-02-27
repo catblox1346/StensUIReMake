@@ -2217,7 +2217,7 @@ function library:AddWindow(title, options)
                     end
 
                     function tab_data:Row(Config)
-                        local row_data = setmetatable({}, { __index = tab_data })
+                        local row_data = {}
                     
                         Config = Config or {}
                         local Row = Prefabs:FindFirstChild("Row"):Clone()
@@ -2248,6 +2248,14 @@ function library:AddWindow(title, options)
                                 end)
                             end
                             return Config
+                        end
+                    
+                        for i, v in next, tab_data do
+                            if type(v) == "function" then
+                                row_data[i] = function(...)
+                                    return v(...)
+                                end
+                            end
                         end
                     
                         return row_data, Row
