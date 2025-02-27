@@ -149,6 +149,7 @@ TextBox_1.TextEditable = false
 TextBox_1.Visible = false
 TextBox_1.ClearTextOnFocus = false
 TextBox_1.PlaceHolderColor3 = Color3.new(1, 1, 1)
+TextBox_1.TextSelectable = false
 
 
 
