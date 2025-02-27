@@ -2244,7 +2244,7 @@ function library:AddWindow(title, options)
                                 if Child:IsA("GuiObject") then
                                     pcall(function()
                                         local currentY = Child.Size.Y
-                                        Child.Size = UDim2.new(1 / math.max(Rows, 1), -Padding, currentY.Scale, currentY.Offset)
+                                        Child.Size = UDim2.new(1 / math.max(Rows, 1), -Padding, 0, 20)
                                     end)
                                 end
                             end
