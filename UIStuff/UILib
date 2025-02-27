@@ -19,6 +19,7 @@ local Prefabs = Instance.new("Frame")
 local Label = Instance.new("TextLabel")
 local Window = Instance.new("ImageLabel")
 local Resizer = Instance.new("Frame")
+local TextBox_1 = Instance.new("TextBox") 
 local Bar = Instance.new("Frame")
 local Toggle = Instance.new("ImageButton")
 local Base = Instance.new("ImageLabel")
@@ -127,11 +128,24 @@ Window.SliceCenter = Rect.new(12, 12, 12, 12)
 Resizer.Name = "Resizer"
 Resizer.Parent = Window
 Resizer.Active = true
+--Resizer.Text = "◢"
 Resizer.BackgroundColor3 = Color3.new(1, 1, 1)
 Resizer.BackgroundTransparency = 1
 Resizer.BorderSizePixel = 0
 Resizer.Position = UDim2.new(1, -20, 1, -20)
 Resizer.Size = UDim2.new(0, 20, 0, 20)
+
+
+TextBox_1.Name = "TextBox_1"
+TextBox_1.Parent = Resizer
+TextBox_1.Active = true
+TextBox_1.Text = "◢"
+TextBox_1.BackgroundColor3 = Color3.new(1, 1, 1)
+TextBox_1.BackgroundTransparency = 1
+TextBox_1.BorderSizePixel = 0
+TextBox_1.Position = UDim2.new(1, -20, 1, -20)
+TextBox_1.Size = UDim2.new(0, 20, 0, 20)--]]
+
 
 Bar.Name = "Bar"
 Bar.Parent = Window
@@ -1051,6 +1065,7 @@ function library:AddWindow(title, options)
     end
 
     local Resizer = Window:WaitForChild("Resizer")
+    TextBox_1.BackgroundColor3 = options.main_color
 
     local window_data = {}
 
@@ -2243,7 +2258,6 @@ function library:AddWindow(title, options)
                             for _, Child in ipairs(Children) do
                                 if Child:IsA("GuiObject") then
                                     pcall(function()
-                                        local currentY = Child.Size.Y
                                         Child.Size = UDim2.new(1 / math.max(Rows, 1), -Padding, 0, 20)
                                     end)
                                 end
