@@ -366,7 +366,7 @@ Dropdown.TextXAlignment = Enum.TextXAlignment.Left
 
 Search.Name = "Search"
 Search.Parent = Dropdown
-Search.BackgroundColor3 = Color3.new(1, 1, 1)
+Search.BackgroundColor3 = Color3.new(0.784314, 0.784314, 0.784314)
 Search.BackgroundTransparency = 1
 Search.BorderSizePixel = 0
 Search.Position = UDim2.new(0, 18, 0, 0)
@@ -379,7 +379,7 @@ Search.TextSize = 14
 Search.TextXAlignment = Enum.TextXAlignment.Left
 Search.ClearTextOnFocus = true
 Search.PlaceholderText = "Search..."
-Search.PlaceholderColor3 = Color3.new(1,1,1)
+Search.PlaceholderColor3 = Color3.new(0.784314, 0.784314, 0.784314)
 
 
 Indicator_2.Name = "Indicator"
@@ -1667,9 +1667,13 @@ function library:AddWindow(title, options)
                         indicator.ZIndex = indicator.ZIndex + (windows * 10)
                         Search.ZIndex = Search.ZIndex + (windows * 10)
                         dropdown:GetChildren()[3].ZIndex = dropdown:GetChildren()[3].ZIndex + (windows * 10)
+                        dropdown.ZIndex = dropdown.ZIndex + (windows * 11)
                     
                         dropdown.Parent = new_tab
-                        Search.Text = dropdown_name
+                        Search.Visible = false
+                        --Search.Text = dropdown_name
+                        dropdown.Text = "      " .. dropdown_name
+
                     
                         box.Size = UDim2.new(1, 0, 0, 0)
                     
@@ -1679,7 +1683,8 @@ function library:AddWindow(title, options)
                         Search.Changed:Connect(function(property)
                             if property ~= "Text" then return end
                             if not open then
-                                Search.Text = dropdown_name
+                                --Search.Text = dropdown_name
+                                dropdown.Text = dropdown_name
                                 return
                             end
                     
@@ -1699,33 +1704,47 @@ function library:AddWindow(title, options)
                     
                         dropdown.Activated:Connect(function()
                             open = not open
-                    
+                        
                             if not open then
                                 scrollPos = objects.CanvasPosition
-                                Search.Text = dropdown_name
+                                dropdown.Text = "      " .. dropdown_name
+                                dropdown.ZIndex = dropdown.ZIndex + (windows * 11)
                             end
-                    
-                            local len = (#objects:GetChildren() - 1) * 20
-                            if #objects:GetChildren() - 1 >= 10 then
+                        
+                            local visibleCount = 0
+                            for _, object in ipairs(objects:GetChildren()) do
+                                if object:IsA("TextButton") and object.Visible then
+                                    visibleCount = visibleCount + 1
+                                end
+                            end
+                            
+                            local len = visibleCount * 20
+                            if visibleCount >= 10 then
                                 len = 10 * 20
-                                objects.CanvasSize = UDim2.new(0, 0, (#objects:GetChildren() - 1) * 0.1, 0)
+                                objects.CanvasSize = UDim2.new(0, 0, visibleCount * 0.1, 0)
                             end
-                    
+                            
+                        
                             if open then  -- Open
                                 if dropdown_open then return end
                                 dropdown_open = true
+                                Search.Visible = true
+                                dropdown.ZIndex = 0
                                 local boxTween = Resize(box, { Size = UDim2.new(1, 0, 0, len) }, options.tween_time)
                                 local indicatorTween = Resize(indicator, { Rotation = 90 }, options.tween_time)
-                    
+                        
                                 boxTween.Completed:Connect(function()
                                     objects.CanvasPosition = scrollPos
                                 end)
                             else  -- Close
                                 dropdown_open = false
+                                Search.Visible = false
+                                dropdown.ZIndex = dropdown.ZIndex + (windows * 11)
                                 Resize(box, { Size = UDim2.new(1, 0, 0, 0) }, options.tween_time)
                                 Resize(indicator, { Rotation = -90 }, options.tween_time)
                             end
                         end)
+                        
                     
                         function dropdown_data:Add(n)
                             local object_data = {}
@@ -1755,8 +1774,11 @@ function library:AddWindow(title, options)
                             object.Activated:Connect(function()
                                 if dropdown_open then
                                     scrollPos = objects.CanvasPosition
-                                    Search.Text = "[ " .. n .. " ]"
+                                    --Search.Text = "[ " .. n .. " ]"
+                                    dropdown.Text = "      [ " .. n .. " ]"
                                     dropdown_open = false
+                                    Search.Visible = false
+                                    dropdown.ZIndex = dropdown.ZIndex + (windows * 11)
                                     open = false
                                     Resize(box, { Size = UDim2.new(1, 0, 0, 0) }, options.tween_time)
                                     Resize(indicator, { Rotation = -90 }, options.tween_time)
