@@ -51,6 +51,7 @@ local TextButton_Roundify_4px = Instance.new("ImageLabel")
 local TabButton = Instance.new("TextButton")
 local TextButton_Roundify_4px_2 = Instance.new("ImageLabel")
 local Folder = Instance.new("ImageLabel")
+local Search = Instance.new("TextBox")
 local Row = Instance.new("Frame")
 local UIListLayout_7 = Instance.new("UIListLayout")
 local UIPadding = Instance.new("UIPadding")
@@ -357,10 +358,29 @@ Dropdown.Position = UDim2.new(-0.055555556, 0, 0.0833333284, 0)
 Dropdown.Size = UDim2.new(1, 0, 0, 20)
 Dropdown.ZIndex = 2
 Dropdown.Font = Enum.Font.GothamBold
-Dropdown.Text = "      Dropdown"
+--Dropdown.Text = "      Dropdown"
 Dropdown.TextColor3 = Color3.new(0.784314, 0.784314, 0.784314)
 Dropdown.TextSize = 14
 Dropdown.TextXAlignment = Enum.TextXAlignment.Left
+
+
+Search.Name = "Search"
+Search.Parent = Dropdown
+Search.BackgroundColor3 = Color3.new(1, 1, 1)
+Search.BackgroundTransparency = 1
+Search.BorderSizePixel = 0
+Search.Position = UDim2.new(0, 18, 0, 0)
+Search.Size = UDim2.new(1, -100, 0, 20)
+Search.ZIndex = 2
+Search.Font = Enum.Font.GothamBold
+Search.Text = ""
+Search.TextColor3 = Color3.new(1,1,1)
+Search.TextSize = 14
+Search.TextXAlignment = Enum.TextXAlignment.Left
+Search.ClearTextOnFocus = true
+Search.PlaceholderText = "Search..."
+Search.PlaceholderColor3 = Color3.new(1,1,1)
+
 
 Indicator_2.Name = "Indicator"
 Indicator_2.Parent = Dropdown
@@ -384,6 +404,7 @@ Box.ImageColor3 = Color3.new(0.129412, 0.133333, 0.141176)
 Box.ScaleType = Enum.ScaleType.Slice
 Box.SliceCenter = Rect.new(4, 4, 4, 4)
 
+
 Objects.Name = "Objects"
 Objects.Parent = Box
 Objects.BackgroundColor3 = Color3.new(1, 1, 1)
@@ -392,7 +413,7 @@ Objects.BorderSizePixel = 0
 Objects.Size = UDim2.new(1, 0, 1, 0)
 Objects.ZIndex = 3
 Objects.CanvasSize = UDim2.new(0, 0, 0, 0)
-Objects.ScrollBarThickness = 8
+Objects.ScrollBarThickness = 0
 
 UIListLayout_4.Parent = Objects
 UIListLayout_4.SortOrder = Enum.SortOrder.LayoutOrder
@@ -1629,72 +1650,99 @@ function library:AddWindow(title, options)
                     local scrollPos = Vector2.new(0, 0)
                     function tab_data:AddDropdown(dropdown_name, callback)
                         local dropdown_data = {}
+                        local scrollPos = Vector2.new(0,0)
                         dropdown_name = tostring(dropdown_name or "New Dropdown")
                         callback = typeof(callback) == "function" and callback or function() end
-
+                    
                         local dropdown = Prefabs:FindFirstChild("Dropdown"):Clone()
+                        local Search = dropdown:FindFirstChild("Search")
                         local box = dropdown:FindFirstChild("Box")
                         local objects = box:FindFirstChild("Objects")
                         local indicator = dropdown:FindFirstChild("Indicator")
-                        dropdown.ZIndex = dropdown.ZIndex + (windows * 10)
-                        box.ZIndex = box.ZIndex + (windows * 10)
+                        local TextButton_Roundify_4px = dropdown:FindFirstChild("TextButton_Roundify_4px")
+                        
+                        dropdown.ZIndex = 0
+                        TextButton_Roundify_4px.ZIndex = TextButton_Roundify_4px.ZIndex + (windows * 10)
                         objects.ZIndex = objects.ZIndex + (windows * 10)
                         indicator.ZIndex = indicator.ZIndex + (windows * 10)
+                        Search.ZIndex = Search.ZIndex + (windows * 10)
                         dropdown:GetChildren()[3].ZIndex = dropdown:GetChildren()[3].ZIndex + (windows * 10)
-
-                        --dropdown.Size = UDim2.new(0, gNameLen(dropdown), 0, 20)
-
+                    
                         dropdown.Parent = new_tab
-                        dropdown.Text = "      " .. dropdown_name
+                        Search.Text = dropdown_name
+                    
                         box.Size = UDim2.new(1, 0, 0, 0)
-
+                    
                         local open = false
+                        local dropdown_open = false
+                    
+                        Search.Changed:Connect(function(property)
+                            if property ~= "Text" then return end
+                            if not open then
+                                Search.Text = dropdown_name
+                                return
+                            end
+                    
+                            local searchQuery = Search.Text:lower()
+                            local visibleCount = 0
+                            for _, object in ipairs(objects:GetChildren()) do
+                                if object:IsA("TextButton") then
+                                    object.Visible = searchQuery == "" or string.find(object.Text:lower(), searchQuery)
+                                    if object.Visible then
+                                        visibleCount = visibleCount + 1
+                                    end
+                                end
+                            end
+                            box.Size = UDim2.new(1, 0, 0, visibleCount * 20)
+                            objects.CanvasSize = UDim2.new(1, 0, 0, visibleCount * 20)
+                        end)
+                    
                         dropdown.Activated:Connect(function()
                             open = not open
-
+                    
                             if not open then
                                 scrollPos = objects.CanvasPosition
+                                Search.Text = dropdown_name
                             end
-
+                    
                             local len = (#objects:GetChildren() - 1) * 20
                             if #objects:GetChildren() - 1 >= 10 then
                                 len = 10 * 20
                                 objects.CanvasSize = UDim2.new(0, 0, (#objects:GetChildren() - 1) * 0.1, 0)
                             end
-
-                            if open then     -- Open
+                    
+                            if open then  -- Open
                                 if dropdown_open then return end
                                 dropdown_open = true
                                 local boxTween = Resize(box, { Size = UDim2.new(1, 0, 0, len) }, options.tween_time)
                                 local indicatorTween = Resize(indicator, { Rotation = 90 }, options.tween_time)
-
+                    
                                 boxTween.Completed:Connect(function()
                                     objects.CanvasPosition = scrollPos
                                 end)
-                            else     -- Close
+                            else  -- Close
                                 dropdown_open = false
                                 Resize(box, { Size = UDim2.new(1, 0, 0, 0) }, options.tween_time)
                                 Resize(indicator, { Rotation = -90 }, options.tween_time)
                             end
                         end)
-
+                    
                         function dropdown_data:Add(n)
                             local object_data = {}
                             n = tostring(n or "New Object")
-
+                    
                             local object = Prefabs:FindFirstChild("DropdownButton"):Clone()
-
                             object.Parent = objects
                             object.Text = n
                             object.ZIndex = object.ZIndex + (windows * 10)
-
+                    
                             object.MouseEnter:Connect(function()
                                 object.BackgroundColor3 = options.main_color
                             end)
                             object.MouseLeave:Connect(function()
                                 object.BackgroundColor3 = Color3.fromRGB(33, 34, 36)
                             end)
-
+                    
                             if open then
                                 local len = (#objects:GetChildren() - 1) * 20
                                 if #objects:GetChildren() - 1 >= 10 then
@@ -1703,11 +1751,11 @@ function library:AddWindow(title, options)
                                 end
                                 Resize(box, { Size = UDim2.new(1, 0, 0, len) }, options.tween_time)
                             end
-
+                    
                             object.Activated:Connect(function()
                                 if dropdown_open then
                                     scrollPos = objects.CanvasPosition
-                                    dropdown.Text = "      [ " .. n .. " ]"
+                                    Search.Text = "[ " .. n .. " ]"
                                     dropdown_open = false
                                     open = false
                                     Resize(box, { Size = UDim2.new(1, 0, 0, 0) }, options.tween_time)
@@ -1715,24 +1763,25 @@ function library:AddWindow(title, options)
                                     pcall(callback, n)
                                 end
                             end)
-
+                    
                             function object_data:Remove()
                                 object:Destroy()
                             end
-
+                    
                             return dropdown_data, object_data
                         end
-
+                    
                         function dropdown_data:Clear()
                             for _, object in next, objects:GetChildren() do
-                                if (object:IsA("TextButton")) then
+                                if object:IsA("TextButton") then
                                     object:Destroy()
                                 end
                             end
                         end
-
+                    
                         return dropdown_data, dropdown
                     end
+                    
 
                     function tab_data:AddColorPicker(callback)
                         local color_picker_data = {}
@@ -2175,7 +2224,7 @@ function library:AddWindow(title, options)
                         button:GetChildren()[1].ZIndex = button:GetChildren()[1].ZIndex + (windows * 10)
 
                         folder.Parent = new_tab
-                        button.Text = "      " .. folder_name
+                        button.Text = "        " .. folder_name
 
                         spawn(function()
                             while true do
