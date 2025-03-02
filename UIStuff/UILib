@@ -1753,7 +1753,7 @@ function library:AddWindow(title, options)
                             local object = Prefabs:FindFirstChild("DropdownButton"):Clone()
                             object.Parent = objects
                             object.Text = n
-                            object.ZIndex = object.ZIndex + (windows * 10)
+                            object.ZIndex = object.ZIndex + (windows * 50)
                     
                             object.MouseEnter:Connect(function()
                                 object.BackgroundColor3 = options.main_color
