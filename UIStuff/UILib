@@ -1803,6 +1803,57 @@ function library:AddWindow(title, options)
                     
                         return dropdown_data, dropdown
                     end
+
+                    function tab_data:AddModal(Config)
+                        local ModalEffect = Prefabs.ModalEffect:Clone()
+                        ModalEffect.BackgroundTransparency = 1
+                        ModalEffect.Parent = ImGui.FullScreenGui
+                        ModalEffect.Visible = true
+                    
+                        ImGui:Tween(ModalEffect, {
+                            BackgroundTransparency = 0.6
+                        })
+                    
+                        --// Config
+                        Config = Config or {}
+                        Config.TabsBar = Config.TabsBar ~= nil and Config.TabsBar or false
+                        Config.NoCollapse = true
+                        Config.NoResize = true
+                        Config.NoClose = true
+                        Config.NoSelectEffect = true
+                        Config.Parent = ModalEffect
+                    
+                        --// Center
+                        Config.AnchorPoint = Vector2.new(0.5, 0.5)
+                        Config.Position = UDim2.fromScale(0.5, 0.5)
+                    
+                        --// Create Window
+                        local Window = self:CreateWindow(Config)
+                        Config = Window:CreateTab({
+                            Visible = true
+                        })
+                    
+                        --// Disable other windows
+                        local WindowManger = ImGui:SetWindowProps({
+                            Interactable = false
+                        }, {Window.Window})
+                    
+                        --// Close functions
+                        local WindowClose = Window.Close
+                        function Config:Close()
+                            local Tween = ImGui:Tween(ModalEffect, {
+                                BackgroundTransparency = 1
+                            })
+                            Tween.Completed:Connect(function()
+                                ModalEffect:Remove()
+                            end)
+                    
+                            WindowManger:Revert()
+                            WindowClose()
+                        end
+                    
+                        return Config
+                    end
                     
 
                     function tab_data:AddColorPicker(callback)
@@ -1936,7 +1987,7 @@ function library:AddWindow(title, options)
 
                         console.Parent = new_tab
                         console.ZIndex = console.ZIndex + (windows * 10)
-                        console.Size = UDim2.new(1, 0, console_options.full and 1 or 0, console_options.y)
+                        console.Size = UDim2.new(1, 0, console_options.full and 0.5 or 0, console_options.y)
 
                         local sf = console:GetChildren()[1]
                         local Source = sf:FindFirstChild("Source")
