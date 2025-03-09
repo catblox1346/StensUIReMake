@@ -3,6 +3,7 @@ local ui_options = {
     min_size = Vector2.new(400, 300),
     toggle_key = Enum.KeyCode.RightShift,
     can_resize = true,
+    main_position = UDim2.new(0, 0, 0, 0),
 }
 
 local request = (syn and syn.request) or request or http_request
@@ -1065,6 +1066,7 @@ function library:AddWindow(title, options)
     Window.Parent = Windows
     Window:FindFirstChild("Title").Text = title
     Window.Size = UDim2.new(0, options.min_size.X, 0, options.min_size.Y)
+    Window.Position = options.main_position or UDim2.new(0, 0, 0, 0)
     Window.ZIndex = Window.ZIndex + (windows * 10)
 
     do -- Altering Window Color
@@ -1090,6 +1092,9 @@ function library:AddWindow(title, options)
 
     local Resizer = Window:FindFirstChild("Resizer")
     local ResizerText = Resizer:FindFirstChild("TextLabel_1")
+
+    Resizer.ZIndex = 999
+    ResizerText.ZIndex = 999
     ResizerText.TextColor3 = options.main_color
 
     local window_data = {}
@@ -1297,6 +1302,28 @@ function library:AddWindow(title, options)
         local tab_buttons = tab_selection:FindFirstChild("TabButtons")
 
         do -- Add Tab
+
+            local function showUI()
+                if dropdown_open then
+                    return
+                end
+                Window.Visible = true
+            end
+
+            local function hideUI()
+                if dropdown_open then
+                    return
+                end
+                Window.Visible = false
+            end
+
+            function window_data:HideWindow()
+                showUI()
+            end
+            function window_data:ShowWindow()
+                hideUI()
+            end
+        
             function window_data:AddTab(tab_name)
                 local tab_data = {}
                 tab_name = tostring(tab_name or "New Tab")
@@ -1855,121 +1882,108 @@ function library:AddWindow(title, options)
                         return Config
                     end
                     
-
                     function tab_data:AddColorPicker(callback)
                         local color_picker_data = {}
                         callback = typeof(callback) == "function" and callback or function() end
-
+                    
                         local color_picker = Prefabs:FindFirstChild("ColorPicker"):Clone()
-
                         color_picker.Parent = new_tab
                         color_picker.ZIndex = color_picker.ZIndex + (windows * 10)
-
+                    
                         local palette = color_picker:FindFirstChild("Palette")
                         local sample = color_picker:FindFirstChild("Sample")
                         local saturation = color_picker:FindFirstChild("Saturation")
                         palette.ZIndex = palette.ZIndex + (windows * 10)
                         sample.ZIndex = sample.ZIndex + (windows * 10)
                         saturation.ZIndex = saturation.ZIndex + (windows * 10)
-
-                        do -- Color Picker Math
-                            local h = 0
-                            local s = 1
-                            local v = 1
-
-                            local function update()
-                                local color = Color3.fromHSV(h, s, v)
-                                sample.ImageColor3 = color
-                                saturation.ImageColor3 = Color3.fromHSV(h, 1, 1)
-                                pcall(callback, color)
-                            end
-
-                            do
-                                local color = Color3.fromHSV(h, s, v)
-                                sample.ImageColor3 = color
-                                saturation.ImageColor3 = Color3.fromHSV(h, 1, 1)
-                            end
-
-                            local Entered1, Entered2 = false, false
-                            palette.MouseEnter:Connect(function()
-                                myDragger:setDraggable(false)
-                                Entered1 = true
-                            end)
-                            palette.MouseLeave:Connect(function()
-                                myDragger:setDraggable(true)
-                                Entered1 = false
-                            end)
-                            saturation.MouseEnter:Connect(function()
-                                myDragger:setDraggable(false)
-                                Entered2 = true
-                            end)
-                            saturation.MouseLeave:Connect(function()
-                                myDragger:setDraggable(true)
-                                Entered2 = false
-                            end)
-
-                            local palette_indicator = palette:FindFirstChild("Indicator")
-                            local saturation_indicator = saturation:FindFirstChild("Indicator")
-                            palette_indicator.ZIndex = palette_indicator.ZIndex + (windows * 10)
-                            saturation_indicator.ZIndex = saturation_indicator.ZIndex + (windows * 10)
-
-                            local Held = false
-                            UIS.InputBegan:Connect(function(inputObject)
-                                if inputObject.UserInputType == Enum.UserInputType.MouseButton1 or inputObject.UserInputType == Enum.UserInputType.Touch then
-                                    Held = true
-
-                                    spawn(function()         -- Loop check
-                                        while Held and Entered1 and (not dropdown_open) do -- Palette
-                                            local mouse_location = gMouse()
-
-                                            local x = ((palette.AbsoluteSize.X - (mouse_location.X - palette.AbsolutePosition.X)) + 1)
-                                            local y = ((palette.AbsoluteSize.Y - (mouse_location.Y - palette.AbsolutePosition.Y)) + 1.5)
-
-                                            local color = Color3.fromHSV(x / 100, y / 100, 0)
-                                            h = x / 100
-                                            s = y / 100
-
-                                            Resize(palette_indicator,
-                                                { Position = UDim2.new(0,
-                                                    math.abs(x - 100) - (palette_indicator.AbsoluteSize.X / 2), 0,
-                                                    math.abs(y - 100) - (palette_indicator.AbsoluteSize.Y / 2)) },
-                                                options.tween_time)
-
-                                            update()
-                                            RS.Heartbeat:Wait()
-                                        end
-
-                                        while Held and Entered2 and (not dropdown_open) do -- Saturation
-                                            local mouse_location = gMouse()
-                                            local y = ((palette.AbsoluteSize.Y - (mouse_location.Y - palette.AbsolutePosition.Y)) + 1.5)
-                                            v = y / 100
-
-                                            Resize(saturation_indicator,
-                                                { Position = UDim2.new(0, 0, 0, math.abs(y - 100)) }, options.tween_time)
-
-                                            update()
-                                            RS.Heartbeat:Wait()
-                                        end
-                                    end)
-                                end
-                            end)
-                            UIS.InputEnded:Connect(function(inputObject)
-                                if inputObject.UserInputType == Enum.UserInputType.MouseButton1 or inputObject.UserInputType == Enum.UserInputType.Touch then
-                                    Held = false
-                                end
-                            end)
-
-                            function color_picker_data:Set(color)
-                                color = typeof(color) == "Color3" and color or Color3.new(1, 1, 1)
-                                local h2, s2, v2 = rgbtohsv(color.r * 255, color.g * 255, color.b * 255)
-                                sample.ImageColor3 = color
-                                saturation.ImageColor3 = Color3.fromHSV(h2, 1, 1)
-                                pcall(callback, color)
-                            end
+                    
+                        local h, s, v = 0, 1, 1
+                    
+                        local function update()
+                            local color = Color3.fromHSV(1 - h, 1 - s, 1 - v)  -- Flip hue and invert saturation & value
+                            sample.ImageColor3 = color
+                            saturation.ImageColor3 = Color3.fromHSV(1 - h, 1, 1)
+                            pcall(callback, color)
                         end
-
+                    
+                        local palette_indicator = palette:FindFirstChild("Indicator")
+                        local saturation_indicator = saturation:FindFirstChild("Indicator")
+                        palette_indicator.ZIndex = palette_indicator.ZIndex + (windows * 10)
+                        saturation_indicator.ZIndex = saturation_indicator.ZIndex + (windows * 10)
+                    
+                        local HeldPalette, HeldSaturation = false, false
+                    
+                        local function updatePalette(pos)
+                            local localPos = Vector2.new(pos.X - palette.AbsolutePosition.X, pos.Y - palette.AbsolutePosition.Y)
+                            local x = math.clamp(localPos.X, 0, palette.AbsoluteSize.X)
+                            local y = math.clamp(localPos.Y, 0, palette.AbsoluteSize.Y)
+                            h = x / palette.AbsoluteSize.X
+                            s = (y / palette.AbsoluteSize.Y)
+                            palette_indicator.Position = UDim2.new(0, x - palette_indicator.AbsoluteSize.X / 2, 0, y - palette_indicator.AbsoluteSize.Y / 2)
+                            update()
+                        end
+                        
+                        local function updateSaturation(pos)
+                            local localPosY = pos.Y - saturation.AbsolutePosition.Y
+                            local y = math.clamp(localPosY, 0, saturation.AbsoluteSize.Y)
+                            v = y / saturation.AbsoluteSize.Y
+                            saturation_indicator.Position = UDim2.new(0, 0, 0, y - saturation_indicator.AbsoluteSize.Y / 2)
+                            update()
+                        end
+                        
+                    
+                        palette.InputBegan:Connect(function(input)
+                            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                                myDragger:setDraggable(false)
+                                HeldPalette = true
+                                updatePalette(Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y))
+                                local conn = UIS.InputChanged:Connect(function(i)
+                                    if HeldPalette then
+                                        updatePalette(Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y))
+                                    end
+                                end)
+                                input.Changed:Connect(function(prop)
+                                    if prop == "UserInputState" and input.UserInputState == Enum.UserInputState.End then
+                                        HeldPalette = false
+                                        myDragger:setDraggable(true)
+                                        conn:Disconnect()
+                                    end
+                                end)
+                            end
+                        end)
+                    
+                        saturation.InputBegan:Connect(function(input)
+                            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                                myDragger:setDraggable(false)
+                                HeldSaturation = true
+                                updateSaturation(Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y))
+                                local conn2 = UIS.InputChanged:Connect(function(i)
+                                    if HeldSaturation then
+                                        updateSaturation(Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y))
+                                    end
+                                end)
+                                input.Changed:Connect(function(prop)
+                                    if prop == "UserInputState" and input.UserInputState == Enum.UserInputState.End then
+                                        HeldSaturation = false
+                                        myDragger:setDraggable(true)
+                                        conn2:Disconnect()
+                                    end
+                                end)
+                            end
+                        end)
+                    
+                        function color_picker_data:Set(color)
+                            color = typeof(color) == "Color3" and color or Color3.new(1, 1, 1)
+                            local h2, s2, v2 = rgbtohsv(color.r * 255, color.g * 255, color.b * 255)
+                            h, s, v = h2, s2, v2
+                            sample.ImageColor3 = color
+                            saturation.ImageColor3 = Color3.fromHSV(1 - h, 1, 1)  -- Invert hue for saturation
+                            pcall(callback, color)
+                        end
+                    
                         return color_picker_data, color_picker
                     end
+                    
 
                     function tab_data:AddConsole(console_options)
                         local console_data = {}
