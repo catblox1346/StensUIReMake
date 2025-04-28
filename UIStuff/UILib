@@ -724,7 +724,6 @@ Palette.Position = UDim2.new(0.0500000007, 0, 0.0500000007, 0)
 Palette.Size = UDim2.new(0, 100, 0, 100)
 Palette.Image = "rbxassetid://698052001"
 Palette.ScaleType = Enum.ScaleType.Slice
-Palette.SliceScale = 0.1
 Palette.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Indicator_3.Name = "Indicator"
