@@ -125,6 +125,7 @@ Window.Size = UDim2.new(0, 200, 0, 200)
 Window.Image = "rbxassetid://2851926732"
 Window.ImageColor3 = Color3.new(0.0823529, 0.0862745, 0.0901961)
 Window.ScaleType = Enum.ScaleType.Slice
+Window.SliceScale = 0.1
 Window.SliceCenter = Rect.new(12, 12, 12, 12)
 
 Resizer.Name = "Resizer"
@@ -178,6 +179,7 @@ Base.Size = UDim2.new(1, 0, 0, 10)
 Base.Image = "rbxassetid://2851926732"
 Base.ImageColor3 = Color3.new(0.160784, 0.290196, 0.478431)
 Base.ScaleType = Enum.ScaleType.Slice
+Base.SliceScale = 0.1
 Base.SliceCenter = Rect.new(12, 12, 12, 12)
 
 Top.Name = "Top"
@@ -189,6 +191,7 @@ Top.Size = UDim2.new(1, 0, 0, 10)
 Top.Image = "rbxassetid://2851926732"
 Top.ImageColor3 = Color3.new(0.160784, 0.290196, 0.478431)
 Top.ScaleType = Enum.ScaleType.Slice
+Top.SliceScale = 0.1
 Top.SliceCenter = Rect.new(12, 12, 12, 12)
 
 Tabs.Name = "Tabs"
@@ -220,6 +223,7 @@ TabSelection.Visible = false
 TabSelection.Image = "rbxassetid://2851929490"
 TabSelection.ImageColor3 = Color3.new(0.145098, 0.14902, 0.156863)
 TabSelection.ScaleType = Enum.ScaleType.Slice
+TabSelection.SliceScale = 0.1
 TabSelection.SliceCenter = Rect.new(4, 4, 4, 4)
 
 TabButtons.Name = "TabButtons"
@@ -272,6 +276,7 @@ TextBox_Roundify_4px.Size = UDim2.new(1, 0, 1, 0)
 TextBox_Roundify_4px.Image = "rbxassetid://2851929490"
 TextBox_Roundify_4px.ImageColor3 = Color3.new(0.203922, 0.207843, 0.219608)
 TextBox_Roundify_4px.ScaleType = Enum.ScaleType.Slice
+TextBox_Roundify_4px.SliceScale = 0.1
 TextBox_Roundify_4px.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Slider.Name = "Slider"
@@ -283,6 +288,7 @@ Slider.Size = UDim2.new(1, 0, 0, 20)
 Slider.Image = "rbxassetid://2851929490"
 Slider.ImageColor3 = Color3.new(0.145098, 0.14902, 0.156863)
 Slider.ScaleType = Enum.ScaleType.Slice
+Slider.SliceScale = 0.1
 Slider.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Title_2.Name = "Title"
@@ -305,6 +311,7 @@ Indicator.Size = UDim2.new(0, 0, 0, 20)
 Indicator.Image = "rbxassetid://2851929490"
 Indicator.ImageColor3 = Color3.new(0.254902, 0.262745, 0.278431)
 Indicator.ScaleType = Enum.ScaleType.Slice
+Indicator.SliceScale = 0.1
 Indicator.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Value.Name = "Value"
@@ -403,6 +410,7 @@ Box.ZIndex = 3
 Box.Image = "rbxassetid://2851929490"
 Box.ImageColor3 = Color3.new(0.129412, 0.133333, 0.141176)
 Box.ScaleType = Enum.ScaleType.Slice
+Box.SliceScale = 0.1
 Box.SliceCenter = Rect.new(4, 4, 4, 4)
 
 
@@ -427,6 +435,7 @@ TextButton_Roundify_4px.Size = UDim2.new(1, 0, 1, 0)
 TextButton_Roundify_4px.Image = "rbxassetid://2851929490"
 TextButton_Roundify_4px.ImageColor3 = Color3.new(0.203922, 0.207843, 0.219608)
 TextButton_Roundify_4px.ScaleType = Enum.ScaleType.Slice
+TextButton_Roundify_4px.SliceScale = 0.1
 TextButton_Roundify_4px.SliceCenter = Rect.new(4, 4, 4, 4)
 
 TabButton.Name = "TabButton"
@@ -450,6 +459,7 @@ TextButton_Roundify_4px_2.Size = UDim2.new(1, 0, 1, 0)
 TextButton_Roundify_4px_2.Image = "rbxassetid://2851929490"
 TextButton_Roundify_4px_2.ImageColor3 = Color3.new(0.203922, 0.207843, 0.219608)
 TextButton_Roundify_4px_2.ScaleType = Enum.ScaleType.Slice
+TextButton_Roundify_4px_2.SliceScale = 0.1
 TextButton_Roundify_4px_2.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Folder.Name = "Folder"
@@ -461,6 +471,7 @@ Folder.Size = UDim2.new(1, 0, 0, 20)
 Folder.Image = "rbxassetid://2851929490"
 Folder.ImageColor3 = Color3.new(0.0823529, 0.0862745, 0.0901961)
 Folder.ScaleType = Enum.ScaleType.Slice
+Folder.SliceScale = 0.1
 Folder.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Button.Name = "Button"
@@ -504,6 +515,7 @@ TextButton_Roundify_4px_3.Size = UDim2.new(1, 0, 1, 0)
 TextButton_Roundify_4px_3.Image = "rbxassetid://2851929490"
 TextButton_Roundify_4px_3.ImageColor3 = Color3.new(0.160784, 0.290196, 0.478431)
 TextButton_Roundify_4px_3.ScaleType = Enum.ScaleType.Slice
+TextButton_Roundify_4px_3.SliceScale = 0.1
 TextButton_Roundify_4px_3.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Toggle_2.Name = "Toggle"
@@ -545,6 +557,7 @@ Console.Size = UDim2.new(1, 0, 0, 200)
 Console.Image = "rbxassetid://2851928141"
 Console.ImageColor3 = Color3.new(0.129412, 0.133333, 0.141176)
 Console.ScaleType = Enum.ScaleType.Slice
+Console.SliceScale = 0.1
 Console.SliceCenter = Rect.new(8, 8, 8, 8)
 
 ScrollingFrame.Parent = Console
@@ -700,6 +713,7 @@ ColorPicker.Size = UDim2.new(0, 180, 0, 110)
 ColorPicker.Image = "rbxassetid://2851929490"
 ColorPicker.ImageColor3 = Color3.new(0.203922, 0.207843, 0.219608)
 ColorPicker.ScaleType = Enum.ScaleType.Slice
+ColorPicker.SliceScale = 0.1
 ColorPicker.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Palette.Name = "Palette"
@@ -710,6 +724,7 @@ Palette.Position = UDim2.new(0.0500000007, 0, 0.0500000007, 0)
 Palette.Size = UDim2.new(0, 100, 0, 100)
 Palette.Image = "rbxassetid://698052001"
 Palette.ScaleType = Enum.ScaleType.Slice
+Palette.SliceScale = 0.1
 Palette.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Indicator_3.Name = "Indicator"
@@ -721,6 +736,7 @@ Indicator_3.ZIndex = 2
 Indicator_3.Image = "rbxassetid://2851926732"
 Indicator_3.ImageColor3 = Color3.new(0, 0, 0)
 Indicator_3.ScaleType = Enum.ScaleType.Slice
+Indicator_3.SliceScale = 0.1
 Indicator_3.SliceCenter = Rect.new(12, 12, 12, 12)
 
 Sample.Name = "Sample"
@@ -731,6 +747,7 @@ Sample.Position = UDim2.new(0.800000012, 0, 0.0500000007, 0)
 Sample.Size = UDim2.new(0, 25, 0, 25)
 Sample.Image = "rbxassetid://2851929490"
 Sample.ScaleType = Enum.ScaleType.Slice
+Sample.SliceScale = 0.1
 Sample.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Saturation.Name = "Saturation"
@@ -769,6 +786,7 @@ TextButton_Roundify_4px_4.Image = "rbxassetid://2851929490"
 TextButton_Roundify_4px_4.ImageColor3 = Color3.new(0.160784, 0.290196, 0.478431)
 TextButton_Roundify_4px_4.ImageTransparency = 0.5
 TextButton_Roundify_4px_4.ScaleType = Enum.ScaleType.Slice
+TextButton_Roundify_4px_4.SliceScale = 0.1
 TextButton_Roundify_4px_4.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Title_3.Name = "Title"
@@ -802,6 +820,7 @@ TextButton_Roundify_4px_5.Size = UDim2.new(1, 0, 1, 0)
 TextButton_Roundify_4px_5.Image = "rbxassetid://2851929490"
 TextButton_Roundify_4px_5.ImageColor3 = Color3.new(0.160784, 0.290196, 0.478431)
 TextButton_Roundify_4px_5.ScaleType = Enum.ScaleType.Slice
+TextButton_Roundify_4px_5.SliceScale = 0.1
 TextButton_Roundify_4px_5.SliceCenter = Rect.new(4, 4, 4, 4)
 
 DropdownButton.Name = "DropdownButton"
@@ -824,6 +843,7 @@ Keybind.Size = UDim2.new(0, 200, 0, 20)
 Keybind.Image = "rbxassetid://2851929490"
 Keybind.ImageColor3 = Color3.new(0.203922, 0.207843, 0.219608)
 Keybind.ScaleType = Enum.ScaleType.Slice
+Keybind.SliceScale = 0.1
 Keybind.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Title_4.Name = "Title"
@@ -859,6 +879,7 @@ Input_Roundify_4px.Size = UDim2.new(1, 0, 1, 0)
 Input_Roundify_4px.Image = "rbxassetid://2851929490"
 Input_Roundify_4px.ImageColor3 = Color3.new(0.290196, 0.294118, 0.313726)
 Input_Roundify_4px.ScaleType = Enum.ScaleType.Slice
+Input_Roundify_4px.SliceScale = 0.1
 Input_Roundify_4px.SliceCenter = Rect.new(4, 4, 4, 4)
 
 Windows.Name = "Windows"
@@ -1008,6 +1029,9 @@ function library:FormatWindows()
     format_windows()
 end
 
+
+
+
 function library:AddWindow(title, options)
 
     do
@@ -1031,6 +1055,7 @@ function library:AddWindow(title, options)
         TextButton.Image = "rbxassetid://2851929490"
         TextButton.ImageColor3 = options.main_color
         TextButton.ScaleType = Enum.ScaleType.Slice
+        TextButton.SliceScale = 0.1
         TextButton.SliceCenter = Rect.new(4, 4, 4, 4)
     
         ImageLabel.Parent = TextButton
@@ -1320,11 +1345,11 @@ function library:AddWindow(title, options)
             function window_data:HideWindow()
                 showUI()
             end
-            function window_data:ShowWindow()
+            function window_data:HideWindow()
                 hideUI()
             end
         
-            function window_data:AddTab(tab_name)
+            function window_data:AddTab(tab_name, toggle)
                 local tab_data = {}
                 tab_name = tostring(tab_name or "New Tab")
                 tab_selection.Visible = true
@@ -1339,9 +1364,13 @@ function library:AddWindow(title, options)
                 local new_tab = Prefabs:FindFirstChild("Tab"):Clone()
                 new_tab.Parent = tabs
                 new_tab.ZIndex = new_tab.ZIndex + (windows * 10)
-                new_tab.ScrollingEnabled = options.Scrolling_Enabled or false
-                new_tab.ScrollBarThickness = options.Scroll_Bar_Thickness or 0
-                new_tab.ScrollBarImageTransparency = options.Scroll_Bar_Transparency or 1
+
+                if not toggle then
+                    new_tab.ScrollingEnabled = toggle
+                    new_tab.ScrollBarThickness = toggle and 10 or 0
+                    new_tab.ScrollBarImageTransparency = scrolltoggleingthingnow and 0 or 1
+                end
+                
                 
                 local function show()
                     if dropdown_open then return end
@@ -1379,7 +1408,7 @@ function library:AddWindow(title, options)
                         newObject.TextButton.TextLabel.Text = 'Needed : ' ..
                         (needed or 0) .. '\nMissing : ' .. (missing or 0)
 
-                        new_tab.CanvasSize = UDim2.new(0, 0, 0, (#new_tab:GetChildren() * 40 - 35))
+                        new_tab.CanvasSize = UDim2.new(0, 0, 0, #(new_tab:GetChildren()) * 45)
                         return newObject
                     end
 
@@ -1502,7 +1531,7 @@ function library:AddWindow(title, options)
 
                     function tab_data:AddSlider(slider_text, callback, slider_options)
                         local slider_data = {}
-
+                    
                         slider_text = tostring(slider_text or "New Slider")
                         callback = typeof(callback) == "function" and callback or function() end
                         slider_options = typeof(slider_options) == "table" and slider_options or {}
@@ -1511,22 +1540,22 @@ function library:AddWindow(title, options)
                             ["max"] = slider_options.max or 100,
                             ["readonly"] = slider_options.readonly or false,
                         }
-
+                    
                         local slider = Prefabs:FindFirstChild("Slider"):Clone()
-
+                    
                         slider.Parent = new_tab
                         slider.ZIndex = slider.ZIndex + (windows * 10)
-
+                    
                         local title = slider:FindFirstChild("Title")
                         local indicator = slider:FindFirstChild("Indicator")
                         local value = slider:FindFirstChild("Value")
                         title.ZIndex = title.ZIndex + (windows * 10)
                         indicator.ZIndex = indicator.ZIndex + (windows * 10)
                         value.ZIndex = value.ZIndex + (windows * 10)
-
+                    
                         title.Text = slider_text
-
-                        do -- Slider Math
+                    
+                        do
                             local Entered = false
                             slider.MouseEnter:Connect(function()
                                 Entered = true
@@ -1536,44 +1565,29 @@ function library:AddWindow(title, options)
                                 Entered = false
                                 myDragger:setDraggable(true)
                             end)
-
+                    
                             local Held = false
                             UIS.InputBegan:Connect(function(inputObject)
                                 if inputObject.UserInputType == Enum.UserInputType.MouseButton1 or inputObject.UserInputType == Enum.UserInputType.Touch then
                                     Held = true
-
-                                    spawn(function() -- Loop check
+                    
+                                    spawn(function()
                                         if Entered and not slider_options.readonly then
                                             while Held and (not dropdown_open) do
                                                 local mouse_location = gMouse()
-                                                local x = (slider.AbsoluteSize.X - (slider.AbsoluteSize.X - ((mouse_location.X - slider.AbsolutePosition.X)) + 1)) /
-                                                slider.AbsoluteSize.X
-
-                                                local min = 0
-                                                local max = 1
-
-                                                local size = min
-                                                if x >= min and x <= max then
-                                                    size = x
-                                                elseif x < min then
-                                                    size = min
-                                                elseif x > max then
-                                                    size = max
-                                                end
-
-                                                Resize(indicator, { Size = UDim2.new(size or min, 0, 0, 20) },
-                                                    options.tween_time)
-                                                local p = math.floor((size or min) * 100)
-
-                                                local maxv = slider_options.max
-                                                local minv = slider_options.min
-                                                local diff = maxv - minv
-
-                                                local sel_value = math.floor(((diff / 100) * p) + minv)
-
+                                                local x = (mouse_location.X - slider.AbsolutePosition.X) / slider.AbsoluteSize.X
+                    
+                                                local size = math.clamp(x, 0, 1)
+                    
+                                                Resize(indicator, { Size = UDim2.new(size, 0, 0, 20) }, options.tween_time)
+                                                local p = math.floor(size * 100)
+                    
+                                                local diff = slider_options.max - slider_options.min
+                                                local sel_value = math.floor((diff * size) + slider_options.min)
+                    
                                                 value.Text = tostring(sel_value)
                                                 pcall(callback, sel_value)
-
+                    
                                                 RS.Heartbeat:Wait()
                                             end
                                         end
@@ -1585,29 +1599,26 @@ function library:AddWindow(title, options)
                                     Held = false
                                 end
                             end)
-
+                    
                             function slider_data:Set(new_value)
                                 new_value = tonumber(new_value) or 0
-                                new_value = (((new_value >= 0 and new_value <= 100) and new_value) / 100)
-
-                                Resize(indicator, { Size = UDim2.new(new_value or 0, 0, 0, 20) }, options.tween_time)
-                                local p = math.floor((new_value or 0) * 100)
-
-                                local maxv = slider_options.max
-                                local minv = slider_options.min
-                                local diff = maxv - minv
-
-                                local sel_value = math.floor(((diff / 100) * p) + minv)
-
+                                local size = (new_value - slider_options.min) / (slider_options.max - slider_options.min)
+                    
+                                Resize(indicator, { Size = UDim2.new(size, 0, 0, 20) }, options.tween_time)
+                    
+                                local diff = slider_options.max - slider_options.min
+                                local sel_value = math.floor((diff * size) + slider_options.min)
+                    
                                 value.Text = tostring(sel_value)
                                 pcall(callback, sel_value)
                             end
-
+                    
                             slider_data:Set(slider_options["min"])
                         end
-
+                    
                         return slider_data, slider
                     end
+                    
 
                     function tab_data:AddKeybind(keybind_name, callback, keybind_options)
                         local keybind_data = {}
