@@ -1054,7 +1054,7 @@ function library:AddWindow(title, options)
         TextButton.Image = "rbxassetid://2851929490"
         TextButton.ImageColor3 = options.main_color
         TextButton.ScaleType = Enum.ScaleType.Slice
-        TextButton.SliceScale = 0.1
+        TextButton.SliceScale = 1
         TextButton.SliceCenter = Rect.new(4, 4, 4, 4)
     
         ImageLabel.Parent = TextButton
@@ -1156,7 +1156,7 @@ function library:AddWindow(title, options)
                 local currentMousePos = input.Position
                 local delta = currentMousePos - self.startInputPosition
                 local newPosition = self.startPosition + UDim2.new(0, delta.X, 0, delta.Y)
-                self.frame.Position = self.frame.Position:Lerp(newPosition, 0.05)
+                self.frame.Position = self.frame.Position:Lerp(newPosition, 0.2)
             end
         end
 
@@ -1398,12 +1398,13 @@ function library:AddWindow(title, options)
 
                 do -- Tab Elements
 
-                    function tab_data:AddListing(name, needed, missing) -- [ImageLabel]
+                    function tab_data:AddListing(name, needed, missing, color) -- [ImageLabel]
                         local newObject = ExampleBlock:Clone()
 
                         newObject.Parent = new_tab
 
                         newObject.TextButton.ImageLabel.Image = images[name]
+                        newObject.TextButton.ImageColor3 = color or Color3.fromRGB(0, 0, 0)
                         newObject.TextButton.TextLabel.Text = 'Needed : ' ..
                         (needed or 0) .. '\nMissing : ' .. (missing or 0)
 
@@ -1418,6 +1419,7 @@ function library:AddWindow(title, options)
                             end
                         end
                     end
+                    --]]
 
                     function tab_data:AddLabel(label_text) -- [Label]
                         label_text = tostring(label_text or "New Label")
@@ -1684,6 +1686,7 @@ function library:AddWindow(title, options)
                         return keybind_data, keybind
                     end
 
+                    
                     local scrollPos = Vector2.new(0, 0)
                     function tab_data:AddDropdown(dropdown_name, callback)
                         local dropdown_data = {}
@@ -1704,7 +1707,7 @@ function library:AddWindow(title, options)
                         indicator.ZIndex = indicator.ZIndex + (windows * 10)
                         Search.ZIndex = Search.ZIndex + (windows * 10)
                         dropdown:GetChildren()[3].ZIndex = dropdown:GetChildren()[3].ZIndex + (windows * 10)
-                        dropdown.ZIndex = dropdown.ZIndex + (windows * 11)
+                        dropdown.ZIndex = dropdown.ZIndex + (windows * 12)
                     
                         dropdown.Parent = new_tab
                         Search.Visible = false
@@ -1745,7 +1748,7 @@ function library:AddWindow(title, options)
                             if not open then
                                 scrollPos = objects.CanvasPosition
                                 dropdown.Text = "      " .. dropdown_name
-                                dropdown.ZIndex = dropdown.ZIndex + (windows * 11)
+                                dropdown.ZIndex = dropdown.ZIndex + (windows * 12)
                             end
                         
                             local visibleCount = 0
@@ -1776,7 +1779,7 @@ function library:AddWindow(title, options)
                             else  -- Close
                                 dropdown_open = false
                                 Search.Visible = false
-                                dropdown.ZIndex = dropdown.ZIndex + (windows * 11)
+                                dropdown.ZIndex = dropdown.ZIndex + (windows * 12)
                                 Resize(box, { Size = UDim2.new(1, 0, 0, 0) }, options.tween_time)
                                 Resize(indicator, { Rotation = -90 }, options.tween_time)
                             end
@@ -1815,7 +1818,7 @@ function library:AddWindow(title, options)
                                     dropdown.Text = "      [ " .. n .. " ]"
                                     dropdown_open = false
                                     Search.Visible = false
-                                    dropdown.ZIndex = dropdown.ZIndex + (windows * 11)
+                                    dropdown.ZIndex = dropdown.ZIndex + (windows * 12)
                                     open = false
                                     Resize(box, { Size = UDim2.new(1, 0, 0, 0) }, options.tween_time)
                                     Resize(indicator, { Rotation = -90 }, options.tween_time)
@@ -1837,7 +1840,17 @@ function library:AddWindow(title, options)
                                 end
                             end
                         end
-                    
+
+                        function dropdown_data:Set(value)
+                            print(value)
+                            for _, object in ipairs(objects:GetChildren()) do
+                                if object:IsA("TextButton") and object.Text == value then
+                                    dropdown.Text = "      " .. value
+                                    pcall(callback, value)
+                                    return
+                                end
+                            end
+                        end
                         return dropdown_data, dropdown
                     end
 
@@ -2360,6 +2373,14 @@ function library:AddWindow(title, options)
                             open, objects.Visible = boolean, boolean
                         end
 
+                        function folder_data:ClearFolder()
+                            for _, child in ipairs(objects:GetChildren()) do
+                                if not child:IsA("UIListLayout") and not child:IsA("UIPadding") then
+                                    child:Destroy()
+                                end
+                            end
+                        end
+
                         spawn(function()
                             while true do
                                 Resize(folder, { Size = UDim2.new(1, 0, 0, (open and gFolderLen() or 20)) },
@@ -2427,23 +2448,29 @@ function library:AddWindow(title, options)
                                 local func = tab_data[key]
                                 if type(func) == "function" then
                                     return function(_, ...)
-                                        local element = func(tab_data, ...)
-                                        if typeof(element) == "Instance" then
-                                            element.Parent = Row
+                                        local returnedValues = {func(tab_data, ...)}
+                                        
+                                        local foundInstance = nil
+                                        for i, value in ipairs(returnedValues) do
+                                            if typeof(value) == "Instance" then
+                                                foundInstance = value
+                                                break
+                                            end
                                         end
-                                        return element
+                    
+                                        if foundInstance then
+                                            foundInstance.Parent = Row
+                                        end
+                    
+                                        return table.unpack(returnedValues)
                                     end
                                 end
+                                return tab_data[key]
                             end
                         })
                     
                         return row_data, Row
                     end
-                    
-                    
-                    
-                    
-                    
 
                 end
 
