@@ -1,0 +1,4 @@
+local p=game:GetService("Players").LocalPlayer
+local d=p:FindFirstChild("OtherData")
+local m=_G.Amount or 350
+if d then local h=0 local s=0 for i,x in ipairs(d:GetDescendants())do local n=tonumber((x.Name:match("^Slot(%d+)$")))if n then s=s+1 h=math.max(h,n)end end if s>=m then warn("Limit reached: "..s.."/"..m)return end local t=math.min(m-s,m) if t<=0 then warn("No slots to add")return end for i=h+1,h+t do task.spawn(function()local a={1,i.."\0",0,""}workspace:WaitForChild("UpdateSlotOrderRE"):FireServer(unpack(a))end)end end
