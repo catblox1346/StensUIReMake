@@ -1,13 +1,122 @@
 -- This file was protected using Basket Obfuscator v21.10.2 [https://discord.gg/mAmR6kz3QH]
 
-game:GetService("StarterGui"):SetCore("SendNotification", {
+--[[game:GetService("StarterGui"):SetCore("SendNotification", {
 	Title = "Update Notice";
 	Text = "Join the Discord (copied)\nA new key system has been added join to get more info/latest scripts";
 	Duration = 45;
-})
+})--]]
 
 setclipboard("https://discord.gg/mAmR6kz3QH")
 
--- Boat Builder Hub Loader
-local LUARMOR_KEY_LINK = "https://ads.luarmor.net/get_key?for=BoatBuilderHub_Key_System-FxZfyDCbapNR"
-local a=game:HttpGet("https://raw.githubusercontent.com/depthso/Dear-ReGui/main/ReGui.lua")local b=loadstring(a)()local c=b:Window({Title="Key System",NoClose=true,NoResize=true,Size=UDim2.new(0,350,0,250)}):Center()local d=""local e=false;c:Label({Text="🔒 Script Locked",TextScaled=false,TextSize=20,Size=UDim2.new(1,0,0,30)})c:Separator()c:Label({Text="Please enter your key to access the script:",TextWrapped=true})local f=c:InputText({Label="Key",Placeholder="Enter key here...",Callback=function(g,h)d=h end})local i=c:Label({Text="",TextColor3=Color3.fromRGB(255,30,30)})local function j(k,l)i.Text=k;i.TextColor3=l and Color3.fromRGB(30,255,30)or Color3.fromRGB(255,30,30)end;c:Button({Text="Copy Key Link",Size=UDim2.new(1,0,0,20),BackgroundColor3=Color3.fromRGB(255,165,30),Callback=function()setclipboard(LUARMOR_KEY_LINK)j("Key link copied to clipboard!",true)end})local m=c:Row({Expanded=true})local n;n=m:Button({Text="Submit",BackgroundColor3=Color3.fromRGB(30,255,30),Callback=function()if e or d==""then return end;e=true;n.Text="CHECKING..."i.Text=""task.spawn(function()local o=d:gsub("%s+","")local p,q=pcall(function()script_key=o;loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/72f5693f13d3d2008d69785db59bcb12.lua"))()end)if p then n.Text="VALID!"j("Key valid! Loading script...",true)task.wait(1)c:Close()else n.Text="Submit"j("Invalid key or error",false)e=false end end)end})m:Button({Text="Need Help?",BackgroundColor3=Color3.fromRGB(30,255,255),Callback=function()local r=c:PopupModal({Title="Need Help?",AutoSize="Y",Visible=true})r:Label({Text="How to get your key:",TextScaled=false,TextSize=16})r:Separator()r:Label({Text="1. Click 'Copy Key Link'.\n2. Open it and complete the steps.\n3. Paste the key here and press 'Submit'.",TextWrapped=true})r:Separator()r:Label({Text="For bugs/further help open a ticket in the discord",TextWrapped=true})r:Separator()local s=r:Row({Expanded=true})s:Button({Text="Copy Discord Link",BackgroundColor3=Color3.fromRGB(255,30,30),Callback=function()JoinDiscord()setclipboard("https://discord.gg/mAmR6kz3QH")j("Discord link copied to clipboard!",true)end})r:Separator()r:Button({Text="Close",Callback=function()r:ClosePopup()end})end})
+-- Boat Builder Hub Key System Loader
+local KEY_URL = "https://ads.luarmor.net/get_key?for=BoatBuilderHub_Key_System-FxZfyDCbapNR"
+
+local folderName, fileName = "BBHConfig", "Settings.config"
+local filePath = folderName .. "/" .. fileName
+
+if not isfolder(folderName) then makefolder(folderName) end
+
+do
+	local saved
+	if isfile(filePath) then
+		local ok, content = pcall(readfile, filePath)
+		if ok and content and content ~= "" then saved = content:gsub("%s+", "") end
+	end
+	if saved then
+		local ok = pcall(function()
+			script_key = saved
+			loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/72f5693f13d3d2008d69785db59bcb12.lua"))()
+		end)
+		if ok then return end
+	end
+end
+
+local reguiSrc = game:HttpGet("https://raw.githubusercontent.com/depthso/Dear-ReGui/main/ReGui.lua")
+local ReGui = loadstring(reguiSrc)()
+
+local win = ReGui:Window({ Title = "Key System", NoClose = true, NoResize = true, Size = UDim2.new(0, 350, 0, 250) }):Center()
+_G.KeyWindow = win
+
+local keyText, busy = "", false
+win:Label({ Text = "🔒 Script Locked", TextScaled = false, TextSize = 20, Size = UDim2.new(1, 0, 0, 30) })
+win:Separator()
+win:Label({ Text = "Please enter your key to access the script:", TextWrapped = true })
+
+win:InputText({
+	Label = "Key",
+	Placeholder = "Enter key here...",
+	Callback = function(_, t) keyText = t end,
+})
+
+local statusLbl = win:Label({ Text = "", TextColor3 = Color3.fromRGB(255, 30, 30) })
+local function setStatus(t, ok)
+	statusLbl.Text = t
+	statusLbl.TextColor3 = ok and Color3.fromRGB(30, 255, 30) or Color3.fromRGB(255, 30, 30)
+end
+
+win:Button({
+	Text = "Copy Key Link",
+	Size = UDim2.new(1, 0, 0, 20),
+	BackgroundColor3 = Color3.fromRGB(255, 165, 30),
+	Callback = function()
+		setclipboard(KEY_URL)
+		setStatus("Key link copied to clipboard!", true)
+	end,
+})
+
+local row = win:Row({ Expanded = true })
+local submitBtn
+
+submitBtn = row:Button({
+	Text = "Submit",
+	BackgroundColor3 = Color3.fromRGB(30, 255, 30),
+	Callback = function()
+		if busy or keyText == "" then return end
+		busy = true
+		submitBtn.Text = "CHECKING..."
+		statusLbl.Text = ""
+		task.spawn(function()
+			local cleaned = keyText:gsub("%s+", "")
+			local ok = pcall(function()
+				script_key = cleaned
+				loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/72f5693f13d3d2008d69785db59bcb12.lua"))()
+			end)
+			if ok then
+				pcall(writefile, filePath, cleaned)
+				submitBtn.Text = "VALID!"
+				setStatus("Key valid! Loading script...", true)
+				task.wait(1)
+				win:Close()
+			else
+				submitBtn.Text = "Submit"
+				setStatus("Invalid key or error", false)
+				busy = false
+			end
+		end)
+	end,
+})
+
+row:Button({
+	Text = "Need Help?",
+	BackgroundColor3 = Color3.fromRGB(30, 255, 255),
+	Callback = function()
+		local p = win:PopupModal({ Title = "Need Help?", AutoSize = "Y", Visible = true })
+		p:Label({ Text = "How to get your key:", TextScaled = false, TextSize = 16 })
+		p:Separator()
+		p:Label({ Text = "1. Click 'Copy Key Link'.\n2. Open it and complete the steps.\n3. Paste the key here and press 'Submit'.", TextWrapped = true })
+		p:Separator()
+		p:Label({ Text = "For bugs/further help open a ticket in the discord", TextWrapped = true })
+		p:Separator()
+		local r = p:Row({ Expanded = true })
+		r:Button({
+			Text = "Copy Discord Link",
+			BackgroundColor3 = Color3.fromRGB(255, 30, 30),
+			Callback = function()
+				setclipboard("https://discord.gg/mAmR6kz3QH")
+				setStatus("Discord link copied to clipboard!", true)
+			end,
+		})
+		p:Separator()
+		p:Button({ Text = "Close", Callback = function() p:ClosePopup() end })
+	end,
+})
