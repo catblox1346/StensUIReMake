@@ -9,4 +9,4 @@
 setclipboard("https://discord.gg/mAmR6kz3QH")
 
 -- Boat Builder Hub Key System Loader
-loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/72f5693f13d3d2008d69785db59bcb12.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/catblox1346/BuilderHub/refs/heads/main/Loader.lua"))()
