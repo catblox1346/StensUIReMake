@@ -702,7 +702,7 @@ local F=p:Column()F:Label{Text=E}continue end local F=p:NextColumn()F:Label{Text
 'rbxasset://textures/whiteCircle.png',Arrow=
 'rbxasset://textures/ui/AvatarContextMenu_Arrow.png',Close=
 'rbxasset://textures/loading/cancelButton.png',Checkmark=
-'rbxasset://textures/ui/Lobby/Buttons/nine_slice_button.png',Cat=
+'rbxassetid://117919926261635',Cat=
 'rbxassetid://16211812161',Script='rbxassetid://11570895459',Settings=
 'rbxassetid://9743465390',Info='rbxassetid://18754976792',Move=
 'rbxassetid://6710235139',Roblox='rbxassetid://7414445494',Warning=
@@ -887,7 +887,7 @@ MouseEnter={BackgroundTransparency=0.3},MouseLeave={BackgroundTransparency=0}},
 Init='MouseLeave'},Border={Connections={Selected={Transparency=0,Thickness=1},
 Deselected={Transparency=0.7,Thickness=1}},Init='Selected'}}return aa end end
 local aa,ab,ad,ae,af={Version='1.4.7',Author='Depso',License='MIT',Repository=
-'https://web.archive.org/web/20251104171548/https://github.com/depthso/Dear-ReGui/',Debug=false,PrefabsId=71968920594655,
+'https://github.com/depthso/Dear-ReGui/',Debug=false,PrefabsId=71968920594655,
 DefaultTitle='ReGui',ContainerName='ReGui',DoubleClickThreshold=0.3,
 TooltipOffset=15,IniToSave={'Value'},ClassIgnored={'Visible','Text'},Container=
 nil,Prefabs=nil,FocusedWindow=nil,HasTouchScreen=false,Services=nil,Elements={},
